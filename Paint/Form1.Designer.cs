@@ -318,6 +318,7 @@ namespace Paint
             this.mainPnl.Name = "mainPnl";
             this.mainPnl.Size = new System.Drawing.Size(1171, 510);
             this.mainPnl.TabIndex = 1;
+            this.mainPnl.Paint += new System.Windows.Forms.PaintEventHandler(this.mainPnl_Paint);
             this.mainPnl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseClick);
             this.mainPnl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseDown);
             this.mainPnl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseMove);

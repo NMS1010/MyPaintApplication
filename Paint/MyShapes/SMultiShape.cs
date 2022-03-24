@@ -19,14 +19,20 @@ namespace Paint.MyShapes
         }
         public override void AddPoint(Point p)
         {
-            throw new NotImplementedException();
+            
         }
         public void AddShape(Shape shape)
         {
-            if(!Shapes.Contains(shape))
+            if (!Shapes.Contains(shape))
+            {
                 Shapes.Add(shape);
+                shape.IsChosen = true;
+            }
             else
+            {
                 Shapes.Remove(shape);
+                shape.IsChosen = false;
+            }
         }
         public override void DrawShape(Graphics graphics)
         {

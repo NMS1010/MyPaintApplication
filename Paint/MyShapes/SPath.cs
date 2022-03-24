@@ -20,7 +20,6 @@ namespace Paint.MyShapes
             ListPoint.Add(p);
         }
 
-
         public override void DrawShape(Graphics graphics)
         {
             if (IsStopDrawing == false)
@@ -28,6 +27,12 @@ namespace Paint.MyShapes
             if (ListPoint.Count < 2)
                 return;
             graphics.DrawCurve(PenDraw, ListPoint.ToArray());
+            if (IsChosen)
+            {
+                int gap = ListPoint.Count / 4;
+                SelectedComplexShape(graphics, gap);
+            }
+            
         }
     }
 }

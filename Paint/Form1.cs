@@ -213,6 +213,7 @@ namespace Paint
         private void GroupShape(Shape shape)
         {
             multiShape.AddShape(shape);
+            ReRender();
         }
 
         private void MainPnl_KeyDown(object sender, KeyEventArgs e)
@@ -256,9 +257,7 @@ namespace Paint
                     multiShape.Shapes.ForEach(shape =>
                     {
                         if (shape.Contains(e.Location))
-                        {
                             flag = true;
-                        }
                         List<Point> temp = new List<Point>();
                         if(shape is SPath || shape is SPolygon || shape is SCurve)
                         {
@@ -338,6 +337,11 @@ namespace Paint
             Color newColor = (color_picker_Ptrb.Image as Bitmap).GetPixel(pointTemp.X, pointTemp.Y);
             myColor = newColor;
             colorPtrb.BackColor = newColor;
+            multiShape.Shapes.ForEach(shape =>
+            {
+                shape.PenDraw.Color = myColor;
+            });
+            ReRender();
         }
 
         private void styleCbx_SelectedIndexChanged(object sender, EventArgs e)
@@ -347,8 +351,17 @@ namespace Paint
 
         private void thickTrbar_Scroll(object sender, EventArgs e)
         {
-            myWidth = (sender as TrackBar).Value; 
+            myWidth = (sender as TrackBar).Value;
+            multiShape.Shapes.ForEach(shape =>
+            {
+                shape.PenDraw.Width = myWidth;
+            });
+            ReRender();
         }
 
+        private void mainPnl_Paint(object sender, PaintEventArgs e)
+        {
+            ReRender();
+        }
     }
 }

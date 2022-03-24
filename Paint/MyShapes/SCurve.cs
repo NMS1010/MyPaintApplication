@@ -32,6 +32,10 @@ namespace Paint.MyShapes
             graphics.DrawCurve(PenDraw, ListPoint.ToArray());
             if(IsStopDrawing == false)
                 ListPoint.RemoveAt(ListPoint.Count - 1);
+            if (IsChosen)
+            {
+                SelectedComplexShape(graphics);
+            }
         }
     }
 }

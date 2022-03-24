@@ -12,10 +12,20 @@ namespace Paint.MyShapes
     {
         public Pen PenDraw { get; set; }
         public Brush BrushDraw { get; set; }
+
         public Point Start { get; set; }
         public Point End { get; set; }
+
         public List<Point> ListPoint { get; set; }
+        /// <summary>
+        /// Biến bool cho phép kiểm tra việc vẽ các đường phức tạp như: polygon, curve, path.. đã dừng chưa
+        /// </summary>
         public bool IsStopDrawing { get; set; } = false;
+
+        /// <summary>
+        /// Biến bool cho phép kiểm tra một hình có được chọn hay chưa
+        /// </summary>
+        public bool IsChosen { get; set; } = false;
         public Shape()
         {
 
@@ -41,6 +51,33 @@ namespace Paint.MyShapes
                 return false;
             }
             return true;
+        }
+        public void SelectedBaseOnRectangle(Graphics graphics, Point a, Point b, Point c, Point d)
+        {
+            float temp = PenDraw.Width / 1.5F;
+            if (temp < 6.0)
+            {
+                temp = 6.0F;
+            }
+            Brush brush = new SolidBrush(Color.Black);
+            graphics.FillRectangle(brush, a.X, a.Y, temp, temp);
+            graphics.FillRectangle(brush, b.X, b.Y, temp, temp);
+            graphics.FillRectangle(brush, c.X, c.Y, temp, temp);
+            graphics.FillRectangle(brush, d.X, d.Y, temp, temp);
+        }
+        public void SelectedComplexShape(Graphics graphics, int gap = 1)
+        {
+            float temp = PenDraw.Width / 1.5F;
+            if (temp < 6.0)
+            {
+                temp = 6.0F;
+            }
+            Brush b = new SolidBrush(Color.Black);
+
+            for (int i = 0; i < ListPoint.Count; i += gap)
+            {
+                graphics.FillRectangle(b, ListPoint[i].X - 3, ListPoint[i].Y - 3, temp, temp);
+            }
         }
         public Shape FindShape(Point p, Shape drawObj)
         {
@@ -125,22 +162,5 @@ namespace Paint.MyShapes
         }
         public abstract void DrawShape(Graphics graphics);
         public abstract void AddPoint(Point p);
-        private SRectangle GetRectangle(Point a)
-        {
-            Pen p = new Pen(Color.Black);
-            SRectangle r1 = new SRectangle(p);
-            r1.Start = new Point(a.X - 5, a.Y - 5);
-            r1.End = new Point(a.X + 5, a.Y + 5);
-            return r1;
-        }
-        public virtual List<Shape> ShapeSelected(Point a, Point b, Point c, Point d)
-        {
-            List<Shape> shapeSelected = new List<Shape>();
-            shapeSelected.Add(GetRectangle(a));
-            shapeSelected.Add(GetRectangle(b));
-            shapeSelected.Add(GetRectangle(c));
-            shapeSelected.Add(GetRectangle(d));
-            return shapeSelected;
-        }
     }
 }
