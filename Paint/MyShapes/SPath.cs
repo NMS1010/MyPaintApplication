@@ -4,12 +4,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing.Drawing2D;
+using Paint.Enums;
 
 namespace Paint.MyShapes
 {
     class SPath : Shape
     {
-        public SPath(Pen p): base(p)
+        private GraphicsPath graphicsPath;
+        public SPath(Pen p) : base(p)
         {
             ListPoint = new List<Point>();
         }
@@ -22,11 +25,14 @@ namespace Paint.MyShapes
 
         public override void DrawShape(Graphics graphics)
         {
+
             if (IsStopDrawing == false)
                 ListPoint.Add(End);
             if (ListPoint.Count < 2)
                 return;
-            graphics.DrawCurve(PenDraw, ListPoint.ToArray());
+            graphicsPath = new GraphicsPath();
+            graphicsPath.AddLines(ListPoint.ToArray());
+            graphics.DrawPath(PenDraw, graphicsPath);
             if (IsChosen)
             {
                 int gap = ListPoint.Count / 4;

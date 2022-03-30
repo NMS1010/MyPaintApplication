@@ -86,6 +86,7 @@ namespace Paint
             buttonsFunc = new List<Button>() { lineBtn, rectBtn, squareBtn, ellipseBtn, circleBtn, curveBtn, polygonBtn, pathBtn };
             buttonsTool = new List<Button>() { penBtn, fillBtn, eraserBtn};
             buttonsTool[(int)currTool].BackColor = Color.Red;
+            backColorPtrb.BackColor = penColorPtrb.BackColor = myColor;
             pointsMove = new List<List<Point>>();
             SetImage();
 
@@ -134,32 +135,33 @@ namespace Paint
         }
         private void AddShapeToList()
         {
-            Pen p = new Pen(myColor) { DashStyle = myDashStyle, Width = myWidth };
+            Pen penDraw = new Pen(penColorPtrb.BackColor) { DashStyle = myDashStyle, Width = myWidth };
+            Brush b = new SolidBrush(backColorPtrb.BackColor);
             switch (currShape)
             {
                 case SHAPE.LINE: 
-                    drawShapeObj.Add(new SLine(p)); 
+                    drawShapeObj.Add(new SLine(penDraw)); 
                     break;
                 case SHAPE.RECTANGLE: 
-                    drawShapeObj.Add(new SRectangle(p)); 
+                    drawShapeObj.Add(new SRectangle(penDraw, b, currTool == TOOL.FILL)); 
                     break;
                 case SHAPE.SQUARE: 
-                    drawShapeObj.Add(new SSquare(p)); 
+                    drawShapeObj.Add(new SSquare(penDraw, b, currTool == TOOL.FILL)); 
                     break;
                 case SHAPE.ELLIPSE: 
-                    drawShapeObj.Add(new SEllipse(p)); 
+                    drawShapeObj.Add(new SEllipse(penDraw, b, currTool == TOOL.FILL)); 
                     break;
                 case SHAPE.CIRCLE: 
-                    drawShapeObj.Add(new SCircle(p)); 
+                    drawShapeObj.Add(new SCircle(penDraw, b, currTool == TOOL.FILL)); 
                     break;
                 case SHAPE.CURVE: 
-                    drawShapeObj.Add(new SCurve(p)); 
+                    drawShapeObj.Add(new SCurve(penDraw)); 
                     break;
                 case SHAPE.POLYGON: 
-                    drawShapeObj.Add(new SPolygon(p)); 
+                    drawShapeObj.Add(new SPolygon(penDraw, b, currTool == TOOL.FILL)); 
                     break;
                 case SHAPE.PATH: 
-                    drawShapeObj.Add(new SPath(p)); 
+                    drawShapeObj.Add(new SPath(penDraw)); 
                     break;
             }
         }
@@ -337,9 +339,18 @@ namespace Paint
             Color newColor = (color_picker_Ptrb.Image as Bitmap).GetPixel(pointTemp.X, pointTemp.Y);
             myColor = newColor;
             colorPtrb.BackColor = newColor;
+            if (currColorType == COLOR_TYPE.BACKCOLOR)
+            {
+                backColorPtrb.BackColor = myColor;
+            }
+            else if(currColorType == COLOR_TYPE.PENCOLOR)
+            {
+                penColorPtrb.BackColor = myColor;
+            }
             multiShape.Shapes.ForEach(shape =>
             {
-                shape.PenDraw.Color = myColor;
+                shape.PenDraw.Color = penColorPtrb.BackColor;
+                
             });
             ReRender();
         }
@@ -347,6 +358,11 @@ namespace Paint
         private void styleCbx_SelectedIndexChanged(object sender, EventArgs e)
         {
             myDashStyle = (DashStyle)styleCbx.Items[styleCbx.SelectedIndex];
+            multiShape.Shapes.ForEach(shape =>
+            {
+                shape.PenDraw.DashStyle = myDashStyle;
+            });
+            ReRender();
         }
 
         private void thickTrbar_Scroll(object sender, EventArgs e)
@@ -362,6 +378,41 @@ namespace Paint
         private void mainPnl_Paint(object sender, PaintEventArgs e)
         {
             ReRender();
+        }
+
+        private COLOR_TYPE currColorType = COLOR_TYPE.PENCOLOR;
+        private void RefreshPtrbs()
+        {
+            penColorPtrb.Refresh();
+            backColorPtrb.Refresh();
+        }
+
+        private void backColorPtrb_Click(object sender, EventArgs e)
+        {
+            currColorType = COLOR_TYPE.BACKCOLOR;
+            RefreshPtrbs();
+        }
+
+        private void penColorPtrb_Click(object sender, EventArgs e)
+        {
+            currColorType = COLOR_TYPE.PENCOLOR;
+            RefreshPtrbs();
+        }
+
+        public void ChangeBorderPtrb(PaintEventArgs e, COLOR_TYPE type)
+        {
+            if (currColorType == type)
+                ControlPaint.DrawBorder3D(e.Graphics, e.ClipRectangle, Border3DStyle.Flat);
+            else
+                ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, myColor, ButtonBorderStyle.None);
+        }
+        private void penColorPtrb_Paint(object sender, PaintEventArgs e)
+        {
+            ChangeBorderPtrb(e, COLOR_TYPE.PENCOLOR);
+        }
+        private void backColorPtrb_Paint(object sender, PaintEventArgs e)
+        {
+            ChangeBorderPtrb(e, COLOR_TYPE.BACKCOLOR);
         }
     }
 }

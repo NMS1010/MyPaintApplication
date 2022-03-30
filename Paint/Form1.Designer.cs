@@ -30,7 +30,14 @@ namespace Paint
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.backColorPtrb = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.brushStyleCbx = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.propGrp = new System.Windows.Forms.GroupBox();
+            this.penColorPtrb = new System.Windows.Forms.PictureBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.styleCbx = new System.Windows.Forms.ComboBox();
             this.thickTrbar = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
@@ -53,7 +60,10 @@ namespace Paint
             this.lineBtn = new System.Windows.Forms.Button();
             this.mainPnl = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.backColorPtrb)).BeginInit();
             this.propGrp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.penColorPtrb)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thickTrbar)).BeginInit();
             this.colorPickerGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.color_picker_Ptrb)).BeginInit();
@@ -65,6 +75,7 @@ namespace Paint
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.BlueViolet;
+            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.propGrp);
             this.panel1.Controls.Add(this.colorPickerGrp);
             this.panel1.Controls.Add(this.toolGrp);
@@ -72,22 +83,101 @@ namespace Paint
             this.panel1.Controls.Add(this.shapeGrp);
             this.panel1.Location = new System.Drawing.Point(-3, 29);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1171, 157);
+            this.panel1.Size = new System.Drawing.Size(1351, 157);
             this.panel1.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.backColorPtrb);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.brushStyleCbx);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.groupBox1.Location = new System.Drawing.Point(1072, 11);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(253, 142);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Brush Properties";
+            // 
+            // backColorPtrb
+            // 
+            this.backColorPtrb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.backColorPtrb.Location = new System.Drawing.Point(105, 50);
+            this.backColorPtrb.Name = "backColorPtrb";
+            this.backColorPtrb.Size = new System.Drawing.Size(108, 25);
+            this.backColorPtrb.TabIndex = 8;
+            this.backColorPtrb.TabStop = false;
+            this.backColorPtrb.Click += new System.EventHandler(this.backColorPtrb_Click);
+            this.backColorPtrb.Paint += new System.Windows.Forms.PaintEventHandler(this.backColorPtrb_Paint);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 59);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Background Color";
+            // 
+            // brushStyleCbx
+            // 
+            this.brushStyleCbx.FormattingEnabled = true;
+            this.brushStyleCbx.Items.AddRange(new object[] {
+            "SolidBrush",
+            "HatchBrush",
+            "LinearGradientBrush",
+            "TextureBrush",
+            "PathGradientBrush"});
+            this.brushStyleCbx.Location = new System.Drawing.Point(61, 20);
+            this.brushStyleCbx.Name = "brushStyleCbx";
+            this.brushStyleCbx.Size = new System.Drawing.Size(113, 21);
+            this.brushStyleCbx.TabIndex = 3;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 23);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(30, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Style";
             // 
             // propGrp
             // 
+            this.propGrp.Controls.Add(this.penColorPtrb);
+            this.propGrp.Controls.Add(this.label6);
             this.propGrp.Controls.Add(this.styleCbx);
             this.propGrp.Controls.Add(this.thickTrbar);
             this.propGrp.Controls.Add(this.label2);
             this.propGrp.Controls.Add(this.label1);
             this.propGrp.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.propGrp.Location = new System.Drawing.Point(883, 6);
+            this.propGrp.Location = new System.Drawing.Point(863, 11);
             this.propGrp.Name = "propGrp";
-            this.propGrp.Size = new System.Drawing.Size(204, 114);
+            this.propGrp.Size = new System.Drawing.Size(203, 137);
             this.propGrp.TabIndex = 5;
             this.propGrp.TabStop = false;
-            this.propGrp.Text = "Properties";
+            this.propGrp.Text = "Pen Properties";
+            // 
+            // penColorPtrb
+            // 
+            this.penColorPtrb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.penColorPtrb.Location = new System.Drawing.Point(61, 96);
+            this.penColorPtrb.Name = "penColorPtrb";
+            this.penColorPtrb.Size = new System.Drawing.Size(121, 25);
+            this.penColorPtrb.TabIndex = 9;
+            this.penColorPtrb.TabStop = false;
+            this.penColorPtrb.Click += new System.EventHandler(this.penColorPtrb_Click);
+            this.penColorPtrb.Paint += new System.Windows.Forms.PaintEventHandler(this.penColorPtrb_Paint);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 101);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(31, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Color";
             // 
             // styleCbx
             // 
@@ -316,7 +406,7 @@ namespace Paint
             this.mainPnl.Cursor = System.Windows.Forms.Cursors.Cross;
             this.mainPnl.Location = new System.Drawing.Point(-3, 189);
             this.mainPnl.Name = "mainPnl";
-            this.mainPnl.Size = new System.Drawing.Size(1171, 510);
+            this.mainPnl.Size = new System.Drawing.Size(1335, 510);
             this.mainPnl.TabIndex = 1;
             this.mainPnl.Paint += new System.Windows.Forms.PaintEventHandler(this.mainPnl_Paint);
             this.mainPnl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseClick);
@@ -328,7 +418,7 @@ namespace Paint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1169, 699);
+            this.ClientSize = new System.Drawing.Size(1420, 699);
             this.Controls.Add(this.mainPnl);
             this.Controls.Add(this.panel1);
             this.KeyPreview = true;
@@ -338,8 +428,12 @@ namespace Paint
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainPnl_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainPnl_KeyUp);
             this.panel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.backColorPtrb)).EndInit();
             this.propGrp.ResumeLayout(false);
             this.propGrp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.penColorPtrb)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thickTrbar)).EndInit();
             this.colorPickerGrp.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.color_picker_Ptrb)).EndInit();
@@ -375,6 +469,13 @@ namespace Paint
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.Panel mainPnl;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox backColorPtrb;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox brushStyleCbx;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox penColorPtrb;
+        private System.Windows.Forms.Label label6;
     }
 }
 

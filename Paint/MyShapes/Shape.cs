@@ -15,17 +15,23 @@ namespace Paint.MyShapes
 
         public Point Start { get; set; }
         public Point End { get; set; }
-
+        
         public List<Point> ListPoint { get; set; }
         /// <summary>
-        /// Biến bool cho phép kiểm tra việc vẽ các đường phức tạp như: polygon, curve, path.. đã dừng chưa
+        /// Biến bool cho phép đánh dấu việc vẽ các đường phức tạp như: polygon, curve, path.. đã hoàn thành chưa
         /// </summary>
         public bool IsStopDrawing { get; set; } = false;
 
         /// <summary>
-        /// Biến bool cho phép kiểm tra một hình có được chọn hay chưa
+        /// Biến bool đánh dấu một hình có đang được chọn hay không
         /// </summary>
         public bool IsChosen { get; set; } = false;
+
+        /// <summary>
+        /// Biến bool đánh dấu một hình có đang được tô hay không
+        /// </summary>
+        public bool IsFilled { get; set; } = false;
+
         public Shape()
         {
 
@@ -33,15 +39,14 @@ namespace Paint.MyShapes
         public Shape(Pen p)
         {
             PenDraw = p;
+            
         }
-        public Shape(Brush b)
-        {
-            BrushDraw = b;
-        }
-        public Shape(Pen p, Brush b)
+
+        public Shape(Pen p, Brush b, bool isFilled)
         {
             PenDraw = p;
             BrushDraw = b;
+            IsFilled = isFilled;
         }
         public bool Contains(Point p)
         {
@@ -79,19 +84,24 @@ namespace Paint.MyShapes
                 graphics.FillRectangle(b, ListPoint[i].X - 3, ListPoint[i].Y - 3, temp, temp);
             }
         }
-        public Shape FindShape(Point p, Shape drawObj)
+        private Shape FindShape(Point p, Shape drawObj)
         {
-            using (Bitmap bmp = new Bitmap(1171, 510))
+            Form1 temp = new Form1();   
+            using (Bitmap bmp = new Bitmap(temp.mainPnl.Width, temp.mainPnl.Height))
             {
                 using (var grp = Graphics.FromImage(bmp))
                 {
                     grp.Clear(Color.White);
                     drawObj.DrawShape(grp);
                 }
-                if (bmp.GetPixel(p.X, p.Y).ToArgb() != Color.White.ToArgb())
+                try
                 {
-                    return drawObj;
+                    if (bmp.GetPixel(p.X, p.Y).ToArgb() != Color.White.ToArgb())
+                    {
+                        return drawObj;
+                    }
                 }
+                catch { }
             }
             
             return null;

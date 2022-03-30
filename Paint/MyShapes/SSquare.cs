@@ -10,7 +10,7 @@ namespace Paint.MyShapes
 {
     class SSquare : SRectangle
     {
-        public SSquare(Pen p) : base(p)
+        public SSquare(Pen p, Brush b, bool isFilled) : base(p, b, isFilled)
         {
 
         }
@@ -22,7 +22,13 @@ namespace Paint.MyShapes
         public override void DrawShape(Graphics graphics)
         {
             Rectangle rect = GetSuitableDirectionShape(SHAPE.SQUARE);
-            graphics.DrawRectangle(PenDraw, rect);
+            if (!IsFilled)
+                graphics.DrawRectangle(PenDraw, rect);
+            else
+            {
+                graphics.DrawRectangle(PenDraw, rect);
+                graphics.FillRectangle(BrushDraw, rect);
+            }
             if (IsChosen)
             {
                 float temp = PenDraw.Width / 1.5F;

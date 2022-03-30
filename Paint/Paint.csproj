@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\ACTIONS.cs" />
+    <Compile Include="Enums\COLOR_TYPE.cs" />
     <Compile Include="Enums\SHAPE.cs" />
     <Compile Include="Enums\TOOL.cs" />
     <Compile Include="Form1.cs">

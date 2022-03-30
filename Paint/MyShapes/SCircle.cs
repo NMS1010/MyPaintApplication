@@ -10,7 +10,7 @@ namespace Paint.MyShapes
 {
     class SCircle : SEllipse
     {
-        public SCircle(Pen p) : base(p)
+        public SCircle(Pen p, Brush b, bool isFilled) : base(p, b, isFilled)
         {
 
         }
@@ -23,7 +23,14 @@ namespace Paint.MyShapes
         public override void DrawShape(Graphics graphics)
         {
             Rectangle rect = GetSuitableDirectionShape(SHAPE.CIRCLE);
-            graphics.DrawEllipse(PenDraw, rect);
+            if (!IsFilled)
+                graphics.DrawEllipse(PenDraw, rect);
+            else
+            {
+                graphics.DrawEllipse(PenDraw, rect);
+                graphics.FillEllipse(BrushDraw, rect);
+            }
+
             if (IsChosen)
             {
                 float temp = PenDraw.Width / 1.5F;

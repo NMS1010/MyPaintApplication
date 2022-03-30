@@ -9,7 +9,7 @@ namespace Paint.MyShapes
 {
     class SRectangle : Shape
     {
-        public SRectangle(Pen p) : base(p)
+        public SRectangle(Pen p, Brush b, bool isFilled) : base(p, b, isFilled)
         {
 
         }
@@ -21,7 +21,13 @@ namespace Paint.MyShapes
         public override void DrawShape(Graphics graphics)
         {
             Rectangle rect = GetSuitableDirectionShape(SHAPE.RECTANGLE);
-            graphics.DrawRectangle(PenDraw, rect);
+            if (!IsFilled)
+                graphics.DrawRectangle(PenDraw, rect);
+            else
+            {
+                graphics.DrawRectangle(PenDraw, rect);
+                graphics.FillRectangle(BrushDraw, rect);
+            }
             if (IsChosen)
             {
                 float temp = PenDraw.Width / 1.5F;

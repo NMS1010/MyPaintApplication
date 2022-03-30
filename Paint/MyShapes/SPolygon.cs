@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paint.Enums;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Paint.MyShapes
 {
     class SPolygon : Shape
     {
-        public SPolygon(Pen p) : base(p)
+        public SPolygon(Pen p, Brush b, bool isFilled) : base(p, b, isFilled)
         {
             ListPoint = new List<Point>();
         }
@@ -29,7 +30,14 @@ namespace Paint.MyShapes
                 ListPoint.RemoveAt(ListPoint.Count - 1);
                 return;
             }
-            graphics.DrawPolygon(PenDraw, ListPoint.ToArray());
+            if (!IsFilled)
+                graphics.DrawPolygon(PenDraw, ListPoint.ToArray());
+            else
+            {
+                graphics.DrawPolygon(PenDraw, ListPoint.ToArray());
+                graphics.FillPolygon(BrushDraw, ListPoint.ToArray());
+            }
+            
             if (IsStopDrawing == false)
                 ListPoint.RemoveAt(ListPoint.Count - 1);
             if (IsChosen)
