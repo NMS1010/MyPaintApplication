@@ -21,6 +21,7 @@ namespace Paint
         private SHAPE currShape = SHAPE.NONE;
         private ACTIONS currActions = ACTIONS.NONE;
         private TOOL currTool = TOOL.PEN;
+        private COLOR_TYPE currColorType = COLOR_TYPE.PENCOLOR;
 
         private List<Shape> drawShapeObj;
         private SMultiShape multiShape;
@@ -29,12 +30,15 @@ namespace Paint
 
         private List<Button> buttonsFunc;
         private List<Button> buttonsTool;
-        private List<DashStyle> listDashStyles;
 
         private Color myColor = Color.Red;
         private DashStyle myDashStyle = DashStyle.Solid;
         private int myWidth = 1;
 
+        private string currBrushStyle;
+        private HatchStyle currHatchStyle;
+        public LinearGradientMode currLinearGradientMode;
+        private Brush currBrush;
         public Form1()
         {
             InitializeComponent();
@@ -64,11 +68,19 @@ namespace Paint
         }
         private void Init()
         {
-            
-            listDashStyles = new List<DashStyle>();
-            foreach(DashStyle d in Enum.GetValues(typeof(DashStyle)))
+
+            foreach (DashStyle d in Enum.GetValues(typeof(DashStyle)))
             {
-                listDashStyles.Add(d);
+                styleCbx.Items.Add(d);
+            }
+
+            foreach (HatchStyle name in Enum.GetValues(typeof(HatchStyle)))
+            {
+                hatchStyleCbx.Items.Add(name);
+            }
+            foreach (LinearGradientMode mode in Enum.GetValues(typeof(LinearGradientMode)))
+            {
+                linearGradientStyleCbx.Items.Add(mode);
             }
             foreach (Button btn in shapeGrp.Controls)
             {
@@ -84,16 +96,25 @@ namespace Paint
 
             //Danh sách Button phải đúng theo thứ tự chức năng trong Enums.SHAPE
             buttonsFunc = new List<Button>() { lineBtn, rectBtn, squareBtn, ellipseBtn, circleBtn, curveBtn, polygonBtn, pathBtn };
-            buttonsTool = new List<Button>() { penBtn, fillBtn, eraserBtn};
+            buttonsTool = new List<Button>() { penBtn, fillBtn, eraserBtn };
             buttonsTool[(int)currTool].BackColor = Color.Red;
-            backColorPtrb.BackColor = penColorPtrb.BackColor = myColor;
+
+            backColorPtrb.BackColor = myColor;
+            penColorPtrb.BackColor = myColor;
+            foreColorPtrb.BackColor = myColor;
+
+            startColorGradientPtrb.BackColor = Color.Yellow;
+            endColorGradientPtrb.BackColor = Color.Green;  
+
             pointsMove = new List<List<Point>>();
             SetImage();
 
-            listDashStyles.ForEach(dashStyle => styleCbx.Items.Add(dashStyle));
-            styleCbx.SelectedIndex = 0;
 
+            styleCbx.SelectedIndex = 0;
+            brushStyleCbx.SelectedIndex = 0;
             thickTrbar.Value = myWidth;
+            hatchStyleCbx.SelectedIndex = 0;
+            linearGradientStyleCbx.SelectedIndex = 0;
         }
 
         private void ChooseTool_Click(object sender, EventArgs e)
@@ -115,9 +136,9 @@ namespace Paint
         {
             currActions = ACTIONS.READYDRAW;
             bool isChecked = false;
-            for(int i = 0; i < buttonsFunc.Count; i++)
+            for (int i = 0; i < buttonsFunc.Count; i++)
             {
-                if(buttonsFunc[i] == sender && buttonsFunc[i].Tag == null)
+                if (buttonsFunc[i] == sender && buttonsFunc[i].Tag == null)
                 {
                     buttonsFunc[i].BackColor = Color.Aqua;
                     currShape = (SHAPE)i;
@@ -130,38 +151,38 @@ namespace Paint
                     buttonsFunc[i].Tag = null;
                 }
             }
-            if(!isChecked)
+            if (!isChecked)
                 currShape = SHAPE.NONE;
         }
         private void AddShapeToList()
         {
             Pen penDraw = new Pen(penColorPtrb.BackColor) { DashStyle = myDashStyle, Width = myWidth };
-            Brush b = new SolidBrush(backColorPtrb.BackColor);
+            //Brush b = new SolidBrush(backColorPtrb.BackColor);
             switch (currShape)
             {
-                case SHAPE.LINE: 
-                    drawShapeObj.Add(new SLine(penDraw)); 
+                case SHAPE.LINE:
+                    drawShapeObj.Add(new SLine(penDraw));
                     break;
-                case SHAPE.RECTANGLE: 
-                    drawShapeObj.Add(new SRectangle(penDraw, b, currTool == TOOL.FILL)); 
+                case SHAPE.RECTANGLE:
+                    drawShapeObj.Add(new SRectangle(penDraw, currBrush, currTool == TOOL.FILL));
                     break;
-                case SHAPE.SQUARE: 
-                    drawShapeObj.Add(new SSquare(penDraw, b, currTool == TOOL.FILL)); 
+                case SHAPE.SQUARE:
+                    drawShapeObj.Add(new SSquare(penDraw, currBrush, currTool == TOOL.FILL));
                     break;
-                case SHAPE.ELLIPSE: 
-                    drawShapeObj.Add(new SEllipse(penDraw, b, currTool == TOOL.FILL)); 
+                case SHAPE.ELLIPSE:
+                    drawShapeObj.Add(new SEllipse(penDraw, currBrush, currTool == TOOL.FILL));
                     break;
-                case SHAPE.CIRCLE: 
-                    drawShapeObj.Add(new SCircle(penDraw, b, currTool == TOOL.FILL)); 
+                case SHAPE.CIRCLE:
+                    drawShapeObj.Add(new SCircle(penDraw, currBrush, currTool == TOOL.FILL));
                     break;
-                case SHAPE.CURVE: 
-                    drawShapeObj.Add(new SCurve(penDraw)); 
+                case SHAPE.CURVE:
+                    drawShapeObj.Add(new SCurve(penDraw));
                     break;
-                case SHAPE.POLYGON: 
-                    drawShapeObj.Add(new SPolygon(penDraw, b, currTool == TOOL.FILL)); 
+                case SHAPE.POLYGON:
+                    drawShapeObj.Add(new SPolygon(penDraw, currBrush, currTool == TOOL.FILL));
                     break;
-                case SHAPE.PATH: 
-                    drawShapeObj.Add(new SPath(penDraw)); 
+                case SHAPE.PATH:
+                    drawShapeObj.Add(new SPath(penDraw));
                     break;
             }
         }
@@ -234,8 +255,9 @@ namespace Paint
         }
         private void mainPnl_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left) {
-                return; 
+            if (e.Button != MouseButtons.Left)
+            {
+                return;
             }
 
             startMouseMovePoint = e.Location;
@@ -261,9 +283,9 @@ namespace Paint
                         if (shape.Contains(e.Location))
                             flag = true;
                         List<Point> temp = new List<Point>();
-                        if(shape is SPath || shape is SPolygon || shape is SCurve)
+                        if (shape is SPath || shape is SPolygon || shape is SCurve)
                         {
-                            for(int i = 0; i < shape.ListPoint.Count; i++)
+                            for (int i = 0; i < shape.ListPoint.Count; i++)
                             {
                                 temp.Add(new Point(shape.ListPoint[i].X, shape.ListPoint[i].Y));
                             }
@@ -281,7 +303,7 @@ namespace Paint
                 }
                 return;
             }
-            if(currActions != ACTIONS.DRAWING)
+            if (currActions != ACTIONS.DRAWING)
                 AddShapeToList();
             currActions = ACTIONS.DRAWING;
             drawShapeObj[drawShapeObj.Count - 1].Start = e.Location;
@@ -290,7 +312,26 @@ namespace Paint
                 drawShapeObj[drawShapeObj.Count - 1].AddPoint(e.Location);
             }
         }
+        private void mainPnl_Click(object sender, EventArgs e)
+        {
+            if (currShape != SHAPE.NONE || currActions == ACTIONS.GROUPING || currActions == ACTIONS.MOVING)
+            {
+                return;
+            }
+            MouseEventArgs e2 = e as MouseEventArgs;
+            if (e2.Button != MouseButtons.Left) return;
+            multiShape.Shapes.ForEach(selectedShape => selectedShape.IsChosen = false);
+            multiShape.Shapes.Clear();
+            drawShapeObj.ForEach(shape =>
+            {
+                if (shape.Contains(e2.Location))
+                {
+                    GroupShape(shape);
+                }
+            });
+            ReRender();
 
+        }
         private void mainPnl_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
@@ -307,6 +348,7 @@ namespace Paint
             {
                 currActions = ACTIONS.NONE;
             }
+
         }
         private void mainPnl_MouseClick(object sender, MouseEventArgs e)
         {
@@ -321,7 +363,7 @@ namespace Paint
             }
         }
         /// <summary>
-        /// Điều chỉnh vị trí con trỏ chuột sao cho phù hợp với độ Scale của Image trong PictureBox (như SizeMode: StretchImage, Zoom...)
+        /// Điều chỉnh vị trí con trỏ chuột sao cho phù hợp với độ Scale của Image trong PictureBox (PictureBox co SizeMode: StretchImage, Zoom...)
         /// </summary>
         /// <param name="point"> Vị trí con trỏ chuột hiện tại</param>
         /// <returns></returns>
@@ -339,18 +381,33 @@ namespace Paint
             Color newColor = (color_picker_Ptrb.Image as Bitmap).GetPixel(pointTemp.X, pointTemp.Y);
             myColor = newColor;
             colorPtrb.BackColor = newColor;
+
             if (currColorType == COLOR_TYPE.BACKCOLOR)
             {
                 backColorPtrb.BackColor = myColor;
             }
-            else if(currColorType == COLOR_TYPE.PENCOLOR)
+            else if (currColorType == COLOR_TYPE.PENCOLOR)
             {
                 penColorPtrb.BackColor = myColor;
             }
+            else if (currColorType == COLOR_TYPE.FORECOLOR)
+            {
+                foreColorPtrb.BackColor = myColor;
+            }
+            else if (currColorType == COLOR_TYPE.START_COLOR)
+            {
+                startColorGradientPtrb.BackColor = myColor;
+            }
+            else if (currColorType != COLOR_TYPE.END_COLOR)
+            {
+                endColorGradientPtrb.BackColor = myColor;
+            }
+            currBrush = GetBrush();
             multiShape.Shapes.ForEach(shape =>
             {
                 shape.PenDraw.Color = penColorPtrb.BackColor;
-                
+                if (currColorType != COLOR_TYPE.PENCOLOR)
+                    shape.BrushDraw = GetBrush();
             });
             ReRender();
         }
@@ -380,11 +437,13 @@ namespace Paint
             ReRender();
         }
 
-        private COLOR_TYPE currColorType = COLOR_TYPE.PENCOLOR;
         private void RefreshPtrbs()
         {
             penColorPtrb.Refresh();
             backColorPtrb.Refresh();
+            foreColorPtrb.Refresh();
+            startColorGradientPtrb.Refresh();
+            endColorGradientPtrb.Refresh();
         }
 
         private void backColorPtrb_Click(object sender, EventArgs e)
@@ -399,6 +458,22 @@ namespace Paint
             RefreshPtrbs();
         }
 
+        private void foreColorPtrb_Click(object sender, EventArgs e)
+        {
+            currColorType = COLOR_TYPE.FORECOLOR;
+            RefreshPtrbs();
+        }
+        private void startColorGradientPtrb_Click(object sender, EventArgs e)
+        {
+            currColorType = COLOR_TYPE.START_COLOR;
+            RefreshPtrbs();
+        }
+
+        private void endColorGradientPtrb_Click(object sender, EventArgs e)
+        {
+            currColorType = COLOR_TYPE.END_COLOR;
+            RefreshPtrbs();
+        }
         public void ChangeBorderPtrb(PaintEventArgs e, COLOR_TYPE type)
         {
             if (currColorType == type)
@@ -414,5 +489,91 @@ namespace Paint
         {
             ChangeBorderPtrb(e, COLOR_TYPE.BACKCOLOR);
         }
+        private void foreColorPtrb_Paint(object sender, PaintEventArgs e)
+        {
+            ChangeBorderPtrb(e, COLOR_TYPE.FORECOLOR);
+        }
+        private void startColorGradientPtrb_Paint(object sender, PaintEventArgs e)
+        {
+            ChangeBorderPtrb(e, COLOR_TYPE.START_COLOR);
+        }
+
+        private void endColorGradientPtrb_Paint(object sender, PaintEventArgs e)
+        {
+            ChangeBorderPtrb(e, COLOR_TYPE.END_COLOR);
+        }
+        private Brush GetBrushStyle(string style, Color? backColor = null, Color? foreColor = null, HatchStyle? hatchStyle = null,
+            Color? startColor = null, Color? endColor = null, LinearGradientMode? linearGradientMode = null, Rectangle? rect = null)
+        {
+            switch (style)
+            {
+                case "SolidBrush":
+                    return new SolidBrush(backColor.Value);
+                case "HatchBrush":
+                    return new HatchBrush(hatchStyle.Value, foreColor.Value, backColor.Value);
+                case "LinearGradientBrush":
+                    return new LinearGradientBrush(rect.Value, startColor.Value, endColor.Value, linearGradientMode.Value);
+            }
+
+            return null;
+        }
+        private Brush GetBrush()
+        {
+            Brush br = null;
+            switch (currBrushStyle)
+            {
+                case "SolidBrush":
+                    br = GetBrushStyle(currBrushStyle, backColor: backColorPtrb.BackColor);
+                    break;
+                case "HatchBrush":
+                    br = GetBrushStyle(currBrushStyle, backColor: backColorPtrb.BackColor, foreColor: foreColorPtrb.BackColor, hatchStyle: currHatchStyle);
+                    break;
+                case "LinearGradientBrush":
+                    br = GetBrushStyle(currBrushStyle, rect: new Rectangle(50,50,50,50), startColor: startColorGradientPtrb.BackColor, endColor: endColorGradientPtrb.BackColor, linearGradientMode: currLinearGradientMode);
+                    break;
+            }
+            return br;
+        }
+
+        private void GetCurrentBrush()
+        {
+            currBrush = GetBrush();
+            multiShape.Shapes.ForEach(shape =>
+            {
+                shape.BrushDraw = GetBrush();
+            });
+            ReRender();
+        }
+        private void brushStyleCbx_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currBrushStyle = brushStyleCbx.Items[brushStyleCbx.SelectedIndex].ToString();
+            GetCurrentBrush();
+            if (currBrushStyle == "SolidBrush")
+            {
+                hatchBrushGrp.Visible = false;
+                linearGradientBrushGrp.Visible = false;
+            }else if (currBrushStyle == "HatchBrush")
+            {
+                hatchBrushGrp.Visible = true;
+                linearGradientBrushGrp.Visible = false;
+            }else if (currBrushStyle == "LinearGradientBrush")
+            {
+                hatchBrushGrp.Visible = false;
+                linearGradientBrushGrp.Visible = true;
+            }
+        }
+
+        private void hatchStyleCbx_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currHatchStyle = (HatchStyle)hatchStyleCbx.Items[hatchStyleCbx.SelectedIndex];
+            GetCurrentBrush();
+        }
+
+        private void linearGradientStyleCbx_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currLinearGradientMode = (LinearGradientMode)linearGradientStyleCbx.Items[linearGradientStyleCbx.SelectedIndex];
+            GetCurrentBrush();
+        }
+
     }
 }

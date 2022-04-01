@@ -30,6 +30,18 @@ namespace Paint
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.linearGradientBrushGrp = new System.Windows.Forms.GroupBox();
+            this.endColorGradientPtrb = new System.Windows.Forms.PictureBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.startColorGradientPtrb = new System.Windows.Forms.PictureBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.linearGradientStyleCbx = new System.Windows.Forms.ComboBox();
+            this.hatchBrushGrp = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.foreColorPtrb = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.hatchStyleCbx = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.backColorPtrb = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -60,6 +72,11 @@ namespace Paint
             this.lineBtn = new System.Windows.Forms.Button();
             this.mainPnl = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
+            this.linearGradientBrushGrp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.endColorGradientPtrb)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.startColorGradientPtrb)).BeginInit();
+            this.hatchBrushGrp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.foreColorPtrb)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backColorPtrb)).BeginInit();
             this.propGrp.SuspendLayout();
@@ -75,6 +92,8 @@ namespace Paint
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.BlueViolet;
+            this.panel1.Controls.Add(this.linearGradientBrushGrp);
+            this.panel1.Controls.Add(this.hatchBrushGrp);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.propGrp);
             this.panel1.Controls.Add(this.colorPickerGrp);
@@ -83,8 +102,134 @@ namespace Paint
             this.panel1.Controls.Add(this.shapeGrp);
             this.panel1.Location = new System.Drawing.Point(-3, 29);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1351, 157);
+            this.panel1.Size = new System.Drawing.Size(1411, 223);
             this.panel1.TabIndex = 0;
+            // 
+            // linearGradientBrushGrp
+            // 
+            this.linearGradientBrushGrp.Controls.Add(this.endColorGradientPtrb);
+            this.linearGradientBrushGrp.Controls.Add(this.label10);
+            this.linearGradientBrushGrp.Controls.Add(this.label8);
+            this.linearGradientBrushGrp.Controls.Add(this.startColorGradientPtrb);
+            this.linearGradientBrushGrp.Controls.Add(this.label9);
+            this.linearGradientBrushGrp.Controls.Add(this.linearGradientStyleCbx);
+            this.linearGradientBrushGrp.Location = new System.Drawing.Point(1072, 86);
+            this.linearGradientBrushGrp.Name = "linearGradientBrushGrp";
+            this.linearGradientBrushGrp.Size = new System.Drawing.Size(272, 116);
+            this.linearGradientBrushGrp.TabIndex = 11;
+            this.linearGradientBrushGrp.TabStop = false;
+            this.linearGradientBrushGrp.Text = "LinearGradient Brush";
+            this.linearGradientBrushGrp.Visible = false;
+            // 
+            // endColorGradientPtrb
+            // 
+            this.endColorGradientPtrb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.endColorGradientPtrb.Location = new System.Drawing.Point(118, 76);
+            this.endColorGradientPtrb.Name = "endColorGradientPtrb";
+            this.endColorGradientPtrb.Size = new System.Drawing.Size(108, 25);
+            this.endColorGradientPtrb.TabIndex = 12;
+            this.endColorGradientPtrb.TabStop = false;
+            this.endColorGradientPtrb.Click += new System.EventHandler(this.endColorGradientPtrb_Click);
+            this.endColorGradientPtrb.Paint += new System.Windows.Forms.PaintEventHandler(this.endColorGradientPtrb_Paint);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 88);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 13);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "End Color";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 55);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(56, 13);
+            this.label8.TabIndex = 10;
+            this.label8.Text = "Start Color";
+            // 
+            // startColorGradientPtrb
+            // 
+            this.startColorGradientPtrb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.startColorGradientPtrb.Location = new System.Drawing.Point(117, 47);
+            this.startColorGradientPtrb.Name = "startColorGradientPtrb";
+            this.startColorGradientPtrb.Size = new System.Drawing.Size(108, 23);
+            this.startColorGradientPtrb.TabIndex = 10;
+            this.startColorGradientPtrb.TabStop = false;
+            this.startColorGradientPtrb.Click += new System.EventHandler(this.startColorGradientPtrb_Click);
+            this.startColorGradientPtrb.Paint += new System.Windows.Forms.PaintEventHandler(this.startColorGradientPtrb_Paint);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 21);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(105, 13);
+            this.label9.TabIndex = 10;
+            this.label9.Text = "Linear Gradient Style";
+            // 
+            // linearGradientStyleCbx
+            // 
+            this.linearGradientStyleCbx.FormattingEnabled = true;
+            this.linearGradientStyleCbx.Location = new System.Drawing.Point(117, 18);
+            this.linearGradientStyleCbx.Name = "linearGradientStyleCbx";
+            this.linearGradientStyleCbx.Size = new System.Drawing.Size(149, 21);
+            this.linearGradientStyleCbx.TabIndex = 10;
+            this.linearGradientStyleCbx.SelectedIndexChanged += new System.EventHandler(this.linearGradientStyleCbx_SelectedIndexChanged);
+            // 
+            // hatchBrushGrp
+            // 
+            this.hatchBrushGrp.Controls.Add(this.label7);
+            this.hatchBrushGrp.Controls.Add(this.foreColorPtrb);
+            this.hatchBrushGrp.Controls.Add(this.label3);
+            this.hatchBrushGrp.Controls.Add(this.hatchStyleCbx);
+            this.hatchBrushGrp.Location = new System.Drawing.Point(1072, 87);
+            this.hatchBrushGrp.Name = "hatchBrushGrp";
+            this.hatchBrushGrp.Size = new System.Drawing.Size(272, 84);
+            this.hatchBrushGrp.TabIndex = 9;
+            this.hatchBrushGrp.TabStop = false;
+            this.hatchBrushGrp.Text = "Hatch Brush";
+            this.hatchBrushGrp.Visible = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 55);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(55, 13);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Fore Color";
+            // 
+            // foreColorPtrb
+            // 
+            this.foreColorPtrb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.foreColorPtrb.Location = new System.Drawing.Point(104, 45);
+            this.foreColorPtrb.Name = "foreColorPtrb";
+            this.foreColorPtrb.Size = new System.Drawing.Size(108, 25);
+            this.foreColorPtrb.TabIndex = 10;
+            this.foreColorPtrb.TabStop = false;
+            this.foreColorPtrb.Click += new System.EventHandler(this.foreColorPtrb_Click);
+            this.foreColorPtrb.Paint += new System.Windows.Forms.PaintEventHandler(this.foreColorPtrb_Paint);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(62, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Hatch Style";
+            // 
+            // hatchStyleCbx
+            // 
+            this.hatchStyleCbx.FormattingEnabled = true;
+            this.hatchStyleCbx.Location = new System.Drawing.Point(104, 18);
+            this.hatchStyleCbx.Name = "hatchStyleCbx";
+            this.hatchStyleCbx.Size = new System.Drawing.Size(113, 21);
+            this.hatchStyleCbx.TabIndex = 10;
+            this.hatchStyleCbx.SelectedIndexChanged += new System.EventHandler(this.hatchStyleCbx_SelectedIndexChanged);
             // 
             // groupBox1
             // 
@@ -95,7 +240,7 @@ namespace Paint
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox1.Location = new System.Drawing.Point(1072, 11);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(253, 142);
+            this.groupBox1.Size = new System.Drawing.Size(272, 75);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Brush Properties";
@@ -103,7 +248,7 @@ namespace Paint
             // backColorPtrb
             // 
             this.backColorPtrb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.backColorPtrb.Location = new System.Drawing.Point(105, 50);
+            this.backColorPtrb.Location = new System.Drawing.Point(104, 45);
             this.backColorPtrb.Name = "backColorPtrb";
             this.backColorPtrb.Size = new System.Drawing.Size(108, 25);
             this.backColorPtrb.TabIndex = 8;
@@ -114,7 +259,7 @@ namespace Paint
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 59);
+            this.label5.Location = new System.Drawing.Point(6, 50);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 13);
             this.label5.TabIndex = 5;
@@ -126,13 +271,12 @@ namespace Paint
             this.brushStyleCbx.Items.AddRange(new object[] {
             "SolidBrush",
             "HatchBrush",
-            "LinearGradientBrush",
-            "TextureBrush",
-            "PathGradientBrush"});
+            "LinearGradientBrush"});
             this.brushStyleCbx.Location = new System.Drawing.Point(61, 20);
             this.brushStyleCbx.Name = "brushStyleCbx";
-            this.brushStyleCbx.Size = new System.Drawing.Size(113, 21);
+            this.brushStyleCbx.Size = new System.Drawing.Size(151, 21);
             this.brushStyleCbx.TabIndex = 3;
+            this.brushStyleCbx.SelectedIndexChanged += new System.EventHandler(this.brushStyleCbx_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -307,7 +451,7 @@ namespace Paint
             this.shapeGrp.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.shapeGrp.Location = new System.Drawing.Point(248, 6);
             this.shapeGrp.Name = "shapeGrp";
-            this.shapeGrp.Size = new System.Drawing.Size(308, 148);
+            this.shapeGrp.Size = new System.Drawing.Size(301, 165);
             this.shapeGrp.TabIndex = 0;
             this.shapeGrp.TabStop = false;
             this.shapeGrp.Text = "Shapes";
@@ -404,10 +548,11 @@ namespace Paint
             // 
             this.mainPnl.BackColor = System.Drawing.Color.White;
             this.mainPnl.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.mainPnl.Location = new System.Drawing.Point(-3, 189);
+            this.mainPnl.Location = new System.Drawing.Point(-3, 258);
             this.mainPnl.Name = "mainPnl";
-            this.mainPnl.Size = new System.Drawing.Size(1335, 510);
+            this.mainPnl.Size = new System.Drawing.Size(1411, 549);
             this.mainPnl.TabIndex = 1;
+            this.mainPnl.Click += new System.EventHandler(this.mainPnl_Click);
             this.mainPnl.Paint += new System.Windows.Forms.PaintEventHandler(this.mainPnl_Paint);
             this.mainPnl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseClick);
             this.mainPnl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseDown);
@@ -418,7 +563,7 @@ namespace Paint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1420, 699);
+            this.ClientSize = new System.Drawing.Size(1416, 813);
             this.Controls.Add(this.mainPnl);
             this.Controls.Add(this.panel1);
             this.KeyPreview = true;
@@ -428,6 +573,13 @@ namespace Paint
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainPnl_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainPnl_KeyUp);
             this.panel1.ResumeLayout(false);
+            this.linearGradientBrushGrp.ResumeLayout(false);
+            this.linearGradientBrushGrp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.endColorGradientPtrb)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.startColorGradientPtrb)).EndInit();
+            this.hatchBrushGrp.ResumeLayout(false);
+            this.hatchBrushGrp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.foreColorPtrb)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.backColorPtrb)).EndInit();
@@ -476,6 +628,18 @@ namespace Paint
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox penColorPtrb;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox hatchBrushGrp;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox foreColorPtrb;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox hatchStyleCbx;
+        private System.Windows.Forms.GroupBox linearGradientBrushGrp;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        public System.Windows.Forms.PictureBox startColorGradientPtrb;
+        public System.Windows.Forms.ComboBox linearGradientStyleCbx;
+        public System.Windows.Forms.PictureBox endColorGradientPtrb;
     }
 }
 

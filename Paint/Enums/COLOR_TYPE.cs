@@ -9,6 +9,9 @@ namespace Paint.Enums
     public enum COLOR_TYPE
     {
         BACKCOLOR,
-        PENCOLOR
+        FORECOLOR,
+        PENCOLOR,
+        START_COLOR,
+        END_COLOR
     }
 }
