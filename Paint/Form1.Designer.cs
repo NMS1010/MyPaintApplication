@@ -71,6 +71,7 @@ namespace Paint
             this.rectBtn = new System.Windows.Forms.Button();
             this.lineBtn = new System.Windows.Forms.Button();
             this.mainPnl = new System.Windows.Forms.Panel();
+            this.zoomBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.linearGradientBrushGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.endColorGradientPtrb)).BeginInit();
@@ -382,13 +383,14 @@ namespace Paint
             // 
             // toolGrp
             // 
+            this.toolGrp.Controls.Add(this.zoomBtn);
             this.toolGrp.Controls.Add(this.fillBtn);
             this.toolGrp.Controls.Add(this.eraserBtn);
             this.toolGrp.Controls.Add(this.penBtn);
             this.toolGrp.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.toolGrp.Location = new System.Drawing.Point(15, 36);
+            this.toolGrp.Location = new System.Drawing.Point(15, 25);
             this.toolGrp.Name = "toolGrp";
-            this.toolGrp.Size = new System.Drawing.Size(203, 84);
+            this.toolGrp.Size = new System.Drawing.Size(209, 146);
             this.toolGrp.TabIndex = 3;
             this.toolGrp.TabStop = false;
             this.toolGrp.Text = "Tool";
@@ -559,6 +561,18 @@ namespace Paint
             this.mainPnl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseMove);
             this.mainPnl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseUp);
             // 
+            // zoomBtn
+            // 
+            this.zoomBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.zoomBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.zoomBtn.Location = new System.Drawing.Point(6, 75);
+            this.zoomBtn.Name = "zoomBtn";
+            this.zoomBtn.Size = new System.Drawing.Size(60, 60);
+            this.zoomBtn.TabIndex = 3;
+            this.zoomBtn.Text = "Zoom";
+            this.zoomBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.zoomBtn.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -640,6 +654,7 @@ namespace Paint
         public System.Windows.Forms.PictureBox startColorGradientPtrb;
         public System.Windows.Forms.ComboBox linearGradientStyleCbx;
         public System.Windows.Forms.PictureBox endColorGradientPtrb;
+        private System.Windows.Forms.Button zoomBtn;
     }
 }
 

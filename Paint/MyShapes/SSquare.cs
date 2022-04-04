@@ -44,6 +44,8 @@ namespace Paint.MyShapes
                 d = new Point(rect.X + edge - 3, rect.Y + edge - 3);
                 SelectedBaseOnRectangle(graphics, a, b, c, d);
             }
+
+            this.End = new Point(rect.Right, rect.Bottom);
         }
 
     }

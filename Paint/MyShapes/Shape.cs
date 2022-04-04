@@ -15,7 +15,16 @@ namespace Paint.MyShapes
 
         public Point Start { get; set; }
         public Point End { get; set; }
-        
+
+        /// <summary>
+        /// Xác định bound cho các hình phức tạp
+        /// </summary>
+        public Point TopLeftPoint { get; set; }
+        /// <summary>
+        /// Xác định bound cho các hình phức tạp
+        /// </summary>
+        public Point BottomRightPoint { get; set; }
+
         public List<Point> ListPoint { get; set; }
         /// <summary>
         /// Biến bool cho phép đánh dấu việc vẽ các đường phức tạp như: polygon, curve, path.. đã hoàn thành chưa
@@ -31,6 +40,8 @@ namespace Paint.MyShapes
         /// Biến bool đánh dấu một hình có đang được tô hay không
         /// </summary>
         public bool IsFilled { get; set; } = false;
+
+        public bool IsZoom { get; set; } = false;
 
         public Shape()
         {
@@ -48,6 +59,45 @@ namespace Paint.MyShapes
             BrushDraw = b;
             IsFilled = isFilled;
         }
+
+        public Point GetTopLeftPoint()
+        {
+            Point pMin = new Point(ListPoint[0].X, ListPoint[0].Y);
+            Point minY = ListPoint[0];
+            for (int i = 0; i < ListPoint.Count; i++)
+            {
+                if(pMin.Y > ListPoint[i].Y)
+                {
+                    pMin.Y = ListPoint[i].Y;
+                }
+                if(minY.X > ListPoint[i].X)
+                {
+                    minY = ListPoint[i];
+                }
+            }
+            pMin.X = minY.X - 20;
+            pMin.Y = pMin.Y - 20;
+            return pMin;
+        }
+        public Point GetBottomRightPoint()
+        {
+            Point pMax = new Point(ListPoint[0].X, ListPoint[0].Y);
+            Point maxX = ListPoint[0];
+            for (int i = 0; i < ListPoint.Count; i++)
+            {
+                if (pMax.Y < ListPoint[i].Y)
+                {
+                    pMax.Y = ListPoint[i].Y;
+                }
+                if (maxX.X < ListPoint[i].X)
+                {
+                    maxX = ListPoint[i];
+                }
+            }
+            pMax.X = maxX.X + 20;
+            pMax.Y = pMax.Y + 20;
+            return pMax;
+        }
         public bool Contains(Point p)
         {
             Shape check = FindShape(p, this);
@@ -64,7 +114,7 @@ namespace Paint.MyShapes
             {
                 temp = 6.0F;
             }
-            Brush brush = new SolidBrush(Color.Black);
+            Brush brush = new SolidBrush(Color.FromArgb(0,1,0));
             graphics.FillRectangle(brush, a.X, a.Y, temp, temp);
             graphics.FillRectangle(brush, b.X, b.Y, temp, temp);
             graphics.FillRectangle(brush, c.X, c.Y, temp, temp);
@@ -77,7 +127,7 @@ namespace Paint.MyShapes
             {
                 temp = 6.0F;
             }
-            Brush b = new SolidBrush(Color.Black);
+            Brush b = new SolidBrush(Color.FromArgb(0, 1, 0));
 
             for (int i = 0; i < ListPoint.Count; i += gap)
             {
@@ -104,6 +154,32 @@ namespace Paint.MyShapes
                 catch { }
             }
             
+            return null;
+        }
+        public bool ContainBound(Point p)
+        {
+            return FindBound(p, this) == null;
+        }
+        private Shape FindBound(Point p, Shape drawObj)
+        {
+            Form1 temp = new Form1();
+            using (Bitmap bmp = new Bitmap(temp.mainPnl.Width, temp.mainPnl.Height))
+            {
+                using (var grp = Graphics.FromImage(bmp))
+                {
+                    grp.Clear(Color.White);
+                    drawObj.DrawShape(grp);
+                }
+                try
+                {
+                    if (bmp.GetPixel(p.X, p.Y).ToArgb() != Color.FromArgb(0,1,0).ToArgb())
+                    {
+                        return drawObj;
+                    }
+                }
+                catch { }
+            }
+
             return null;
         }
         public Rectangle GetSuitableDirectionShape(SHAPE currShape)

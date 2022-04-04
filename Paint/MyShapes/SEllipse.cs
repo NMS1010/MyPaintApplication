@@ -41,6 +41,13 @@ namespace Paint.MyShapes
                 b = new Point(Start.X + (End.X - Start.X) / 2 - 3, Start.Y - (int)temp / 2);
                 c = new Point(End.X - (int)temp / 2, Start.Y + (End.Y - Start.Y) / 2 - 3);
                 d = new Point(End.X - (End.X - Start.X) / 2 - 3, End.Y - 3);
+                if (IsZoom)
+                {
+                    a = new Point(Start.X - (int)temp / 2, Start.Y - (int)temp / 2);
+                    b = new Point(End.X - 3, Start.Y - (int)temp / 2);
+                    c = new Point(Start.X - (int)temp / 2, End.Y - 3);
+                    d = new Point(End.X - 3, End.Y - 3);
+                }
                 SelectedBaseOnRectangle(graphics, a, b, c, d);
             }
         }

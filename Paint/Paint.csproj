@@ -59,6 +59,8 @@
     <Compile Include="MyShapes\SCircle.cs" />
     <Compile Include="MyShapes\SCurve.cs" />
     <Compile Include="MyShapes\SEllipse.cs" />
+    <Compile Include="MyShapes\SGroup.cs" />
+    <Compile Include="MyShapes\SGroupShape.cs" />
     <Compile Include="MyShapes\SLine.cs" />
     <Compile Include="MyShapes\SMultiShape.cs" />
     <Compile Include="MyShapes\SPath.cs" />

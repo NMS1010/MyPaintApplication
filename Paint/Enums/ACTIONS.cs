@@ -11,8 +11,11 @@ namespace Paint.Enums
         READYDRAW,
         DRAWING,
         MOVING,
-        READYMOVING,
+        SELECTING,
         GROUPING,
+        UNGROUPING,
+        ZOOM,
+        ZOOMING,
         NONE
     }
 }

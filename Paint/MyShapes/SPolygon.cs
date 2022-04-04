@@ -42,7 +42,22 @@ namespace Paint.MyShapes
                 ListPoint.RemoveAt(ListPoint.Count - 1);
             if (IsChosen)
             {
-                SelectedComplexShape(graphics);
+                if (IsZoom)
+                {
+                    float temp = PenDraw.Width / 1.5F;
+                    if (temp < 6.0)
+                    {
+                        temp = 6.0F;
+                    }
+                    Point a, b, c, d;
+                    a = new Point(TopLeftPoint.X - (int)temp / 2, TopLeftPoint.Y - (int)temp / 2);
+                    b = new Point(BottomRightPoint.X - 3, TopLeftPoint.Y - (int)temp / 2);
+                    c = new Point(TopLeftPoint.X - (int)temp / 2, BottomRightPoint.Y - 3);
+                    d = new Point(BottomRightPoint.X - 3, BottomRightPoint.Y - 3);
+                    SelectedBaseOnRectangle(graphics, a, b, c, d);
+                }
+                else
+                    SelectedComplexShape(graphics);
             }
         }
     }

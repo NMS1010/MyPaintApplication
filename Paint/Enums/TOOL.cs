@@ -10,6 +10,8 @@ namespace Paint.Enums
     {
         PEN,
         FILL,
-        ERASER
+        ERASER,
+        ZOOM,
+        GROUP
     }
 }

@@ -96,7 +96,7 @@ namespace Paint
 
             //Danh sách Button phải đúng theo thứ tự chức năng trong Enums.SHAPE
             buttonsFunc = new List<Button>() { lineBtn, rectBtn, squareBtn, ellipseBtn, circleBtn, curveBtn, polygonBtn, pathBtn };
-            buttonsTool = new List<Button>() { penBtn, fillBtn, eraserBtn };
+            buttonsTool = new List<Button>() { penBtn, fillBtn, eraserBtn, zoomBtn };
             buttonsTool[(int)currTool].BackColor = Color.Red;
 
             backColorPtrb.BackColor = myColor;
@@ -125,6 +125,32 @@ namespace Paint
                 {
                     buttonsTool[i].BackColor = Color.Red;
                     currTool = (TOOL)i;
+                    if (currTool == TOOL.ERASER)
+                    {
+                        multiShape.Shapes.ForEach(selectedShape =>
+                        {
+                            drawShapeObj.Remove(selectedShape);
+                        });
+                        ReRender();
+                    }
+                    if (currTool != TOOL.ZOOM)
+                    {
+                        currActions = ACTIONS.NONE;
+                        drawShapeObj.ForEach(shape =>
+                        {
+                            shape.IsZoom = false;
+                        });
+                        ReRender();
+                    }
+                    else
+                    {
+                        currActions = ACTIONS.ZOOM;
+                        multiShape.Shapes.ForEach(selectedShape =>
+                        {
+                            selectedShape.IsZoom = true;
+                        });
+                        ReRender();
+                    }
                 }
                 else
                 {
@@ -134,6 +160,11 @@ namespace Paint
         }
         private void ChooseShape_Click(object sender, EventArgs e)
         {
+            multiShape.Shapes.ForEach(shape => {
+                shape.IsChosen = false;
+            });
+            multiShape.Shapes.Clear();
+            ReRender();
             currActions = ACTIONS.READYDRAW;
             bool isChecked = false;
             for (int i = 0; i < buttonsFunc.Count; i++)
@@ -157,7 +188,7 @@ namespace Paint
         private void AddShapeToList()
         {
             Pen penDraw = new Pen(penColorPtrb.BackColor) { DashStyle = myDashStyle, Width = myWidth };
-            //Brush b = new SolidBrush(backColorPtrb.BackColor);
+            
             switch (currShape)
             {
                 case SHAPE.LINE:
@@ -192,6 +223,18 @@ namespace Paint
             drawShapeObj.ForEach(shape => shape.DrawShape(grp.Graphics));
             grp.Render();
         }
+        private Rectangle? GetRect(Shape shape)
+        {
+            if (shape is SSquare || shape is SCircle)
+            {
+                return shape.GetSuitableDirectionShape(SHAPE.SQUARE);
+            }
+            if (shape is SRectangle || shape is SEllipse)
+            {
+                return shape.GetSuitableDirectionShape(SHAPE.RECTANGLE);
+            }
+            return null;
+        }
         private void mainPnl_MouseMove(object sender, MouseEventArgs e)
         {
             if (currActions == ACTIONS.DRAWING)
@@ -199,7 +242,80 @@ namespace Paint
                 drawShapeObj[drawShapeObj.Count - 1].End = e.Location;
                 ReRender();
             }
-            else if (currActions == ACTIONS.READYDRAW || currActions == ACTIONS.NONE || currActions == ACTIONS.GROUPING)
+            else if (currActions == ACTIONS.ZOOM)
+            {
+                drawShapeObj.ForEach(shape =>
+                {
+                    if (shape.ContainBound(e.Location))
+                    {
+                        Cursor.Current = Cursors.SizeAll;
+                    }
+                });
+            }
+            else if(currActions == ACTIONS.ZOOMING)
+            {
+                for (int i = 0; i < multiShape.Shapes.Count; i++)
+                {
+                    //Phai duoi
+                    if (isBottomRight)
+                    {
+                        Point preEnd = new Point(multiShape.Shapes[i].BottomRightPoint.X, multiShape.Shapes[i].BottomRightPoint.Y);
+                        multiShape.Shapes[i].End = e.Location;
+                        if (multiShape.Shapes[i] is SPath || multiShape.Shapes[i] is SPolygon || multiShape.Shapes[i] is SCurve)
+                        {
+                            multiShape.Shapes[i].BottomRightPoint = e.Location;
+                            int dx = multiShape.Shapes[i].BottomRightPoint.X - preEnd.X;
+                            int dy = multiShape.Shapes[i].BottomRightPoint.Y - preEnd.Y;
+
+                            for (int j = 2; j < multiShape.Shapes[i].ListPoint.Count; j++)
+                            {
+                                multiShape.Shapes[i].ListPoint[j] = new Point(multiShape.Shapes[i].ListPoint[j].X + dx, multiShape.Shapes[i].ListPoint[j].Y + dy);
+                            }
+                        }
+                        else
+                        {
+                            Rectangle rect = GetRect(multiShape.Shapes[i]).Value;
+                            multiShape.Shapes[i].End = new Point(multiShape.Shapes[i].Start.X + rect.Width, multiShape.Shapes[i].Start.Y + rect.Height);
+                        }
+                    }
+                    //Trai tren
+                    else if (isTopLeft)
+                    {
+                        multiShape.Shapes[i].Start = e.Location;
+                        Rectangle rect = GetRect(multiShape.Shapes[i]).Value;
+
+                        multiShape.Shapes[i].Start = new Point(multiShape.Shapes[i].End.X - rect.Width, multiShape.Shapes[i].End.Y - rect.Height);
+                    }
+                    //Trai duoi
+                    else if (isBottomLeft)
+                    {
+                        Point temp = new Point(multiShape.Shapes[i].End.X, multiShape.Shapes[i].Start.Y);
+
+                        multiShape.Shapes[i].Start = new Point(e.Location.X, multiShape.Shapes[i].Start.Y);
+                        multiShape.Shapes[i].End = new Point(multiShape.Shapes[i].End.X, e.Location.Y);
+
+                        Rectangle rect = GetRect(multiShape.Shapes[i]).Value;
+                        multiShape.Shapes[i].Start = new Point(temp.X - rect.Width, temp.Y);
+                        multiShape.Shapes[i].End = new Point(temp.X, temp.Y + rect.Height);
+                    }
+                    //Phai tren
+                    else if (isTopRight)
+                    {
+                        Point temp = new Point(multiShape.Shapes[i].Start.X, multiShape.Shapes[i].End.Y);
+
+                        multiShape.Shapes[i].Start = new Point(multiShape.Shapes[i].Start.X, e.Location.Y);
+                        multiShape.Shapes[i].End = new Point(e.Location.X, multiShape.Shapes[i].End.Y);
+
+                        Rectangle rect = GetRect(multiShape.Shapes[i]).Value;
+
+                        multiShape.Shapes[i].Start = new Point(temp.X, temp.Y - rect.Height);
+                        multiShape.Shapes[i].End = new Point(temp.X + rect.Width, temp.Y);
+                    }
+                    multiShape.Shapes[i].DrawShape(grp.Graphics);
+                }
+                ReRender();
+            }
+            else if (currActions == ACTIONS.READYDRAW || currActions == ACTIONS.NONE || currActions == ACTIONS.SELECTING)
             {
                 drawShapeObj.ForEach(shape =>
                 {
@@ -243,7 +359,7 @@ namespace Paint
         {
             if (e.Control && currActions != ACTIONS.DRAWING)
             {
-                currActions = ACTIONS.GROUPING;
+                currActions = ACTIONS.SELECTING;
             }
         }
         private void MainPnl_KeyUp(object sender, KeyEventArgs e)
@@ -253,6 +369,7 @@ namespace Paint
                 currActions = ACTIONS.NONE;
             }
         }
+        private bool isBottomRight = false, isBottomLeft = false, isTopLeft = false, isTopRight = false;
         private void mainPnl_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left)
@@ -263,13 +380,68 @@ namespace Paint
             startMouseMovePoint = e.Location;
             if (currShape == SHAPE.NONE)
             {
-                if (currActions == ACTIONS.GROUPING)
+                if (currActions == ACTIONS.SELECTING)
                 {
                     drawShapeObj.ForEach(shape =>
                     {
                         if (shape.Contains(e.Location))
                         {
                             GroupShape(shape);
+                            shape.IsZoom = currTool == TOOL.ZOOM ? true : false;
+                        }
+                    });
+                    ReRender();
+                }
+                else if(currActions == ACTIONS.ZOOM)
+                {
+                    multiShape.Shapes.ForEach(shape =>
+                    {
+                        if (shape.ContainBound(e.Location))
+                        {
+                            currActions = ACTIONS.ZOOMING;
+                            Point startTemp = shape.Start, endTemp = shape.End;
+                            if(shape is SPath || shape is SCurve || shape is SPolygon)
+                            {
+                                startTemp = shape.TopLeftPoint;
+                                endTemp = shape.BottomRightPoint;
+                            }
+                            int temp1 = Math.Abs(e.Location.X - startTemp.X);
+                            int temp2 = Math.Abs(e.Location.Y - startTemp.Y);
+
+                            int temp3 = Math.Abs(e.Location.X - endTemp.X);
+                            int temp4 = Math.Abs(e.Location.Y - endTemp.Y);
+                            if (temp1 < temp3 && temp2 < temp4)
+                            {
+                                isTopLeft = true;
+                                isBottomLeft = false;
+                                isBottomRight = false;
+                                isTopRight = false;
+                            }else if (temp1 > temp3 && temp2 > temp4)
+                            {
+                                isTopLeft = false;
+                                isBottomLeft = false;
+                                isBottomRight = true;
+                                isTopRight = false;
+                            }else if(temp1 > temp3 && temp2 < temp4)
+                            {
+                                isTopLeft = false;
+                                isBottomLeft = false;
+                                isBottomRight = false;
+                                isTopRight = true;
+                            }else if (temp1 < temp3 && temp2 > temp4)
+                            {
+                                isTopLeft = false;
+                                isBottomLeft = true;
+                                isBottomRight = false;
+                                isTopRight = false;
+                            }
+                            else
+                            {
+                                isTopLeft = false;
+                                isBottomLeft = false;
+                                isBottomRight = false;
+                                isTopRight = false;
+                            }
                         }
                     });
                 }
@@ -304,7 +476,9 @@ namespace Paint
                 return;
             }
             if (currActions != ACTIONS.DRAWING)
+            {
                 AddShapeToList();
+            }
             currActions = ACTIONS.DRAWING;
             drawShapeObj[drawShapeObj.Count - 1].Start = e.Location;
             if (currShape == SHAPE.PATH || currShape == SHAPE.CURVE || currShape == SHAPE.POLYGON)
@@ -314,7 +488,7 @@ namespace Paint
         }
         private void mainPnl_Click(object sender, EventArgs e)
         {
-            if (currShape != SHAPE.NONE || currActions == ACTIONS.GROUPING || currActions == ACTIONS.MOVING)
+            if (currShape != SHAPE.NONE || currActions == ACTIONS.SELECTING || currActions == ACTIONS.MOVING)
             {
                 return;
             }
@@ -326,9 +500,22 @@ namespace Paint
             {
                 if (shape.Contains(e2.Location))
                 {
-                    GroupShape(shape);
+                   GroupShape(shape);
+                   shape.IsZoom = currTool == TOOL.ZOOM ? true : false;
                 }
             });
+
+            if (currTool == TOOL.ERASER)
+            {
+                multiShape.Shapes.ForEach(selectedShape =>
+                {
+                    drawShapeObj.Remove(selectedShape);
+                });
+            }else if (currTool == TOOL.ZOOM)
+            {
+                currActions = ACTIONS.ZOOM;
+
+            }
             ReRender();
 
         }
@@ -344,7 +531,7 @@ namespace Paint
                 }
                 ReRender();
             }
-            else
+            else if(currActions != ACTIONS.ZOOM)
             {
                 currActions = ACTIONS.NONE;
             }
@@ -359,6 +546,8 @@ namespace Paint
                 drawShapeObj[drawShapeObj.Count - 1].End = e.Location;
                 drawShapeObj[drawShapeObj.Count - 1].IsStopDrawing = true;
                 drawShapeObj[drawShapeObj.Count - 1].AddPoint(e.Location);
+                drawShapeObj[drawShapeObj.Count - 1].TopLeftPoint = drawShapeObj[drawShapeObj.Count - 1].GetTopLeftPoint();
+                drawShapeObj[drawShapeObj.Count - 1].BottomRightPoint = drawShapeObj[drawShapeObj.Count - 1].GetBottomRightPoint();
                 ReRender();
             }
         }
@@ -398,7 +587,7 @@ namespace Paint
             {
                 startColorGradientPtrb.BackColor = myColor;
             }
-            else if (currColorType != COLOR_TYPE.END_COLOR)
+            else if (currColorType == COLOR_TYPE.END_COLOR)
             {
                 endColorGradientPtrb.BackColor = myColor;
             }
@@ -529,7 +718,7 @@ namespace Paint
                     br = GetBrushStyle(currBrushStyle, backColor: backColorPtrb.BackColor, foreColor: foreColorPtrb.BackColor, hatchStyle: currHatchStyle);
                     break;
                 case "LinearGradientBrush":
-                    br = GetBrushStyle(currBrushStyle, rect: new Rectangle(50,50,50,50), startColor: startColorGradientPtrb.BackColor, endColor: endColorGradientPtrb.BackColor, linearGradientMode: currLinearGradientMode);
+                    br = GetBrushStyle(currBrushStyle, rect: new Rectangle(20,20,20,20), startColor: startColorGradientPtrb.BackColor, endColor: endColorGradientPtrb.BackColor, linearGradientMode: currLinearGradientMode);
                     break;
             }
             return br;
