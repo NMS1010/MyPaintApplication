@@ -57,6 +57,7 @@ namespace Paint
             this.colorPickerGrp = new System.Windows.Forms.GroupBox();
             this.color_picker_Ptrb = new System.Windows.Forms.PictureBox();
             this.toolGrp = new System.Windows.Forms.GroupBox();
+            this.zoomBtn = new System.Windows.Forms.Button();
             this.fillBtn = new System.Windows.Forms.Button();
             this.eraserBtn = new System.Windows.Forms.Button();
             this.penBtn = new System.Windows.Forms.Button();
@@ -71,7 +72,8 @@ namespace Paint
             this.rectBtn = new System.Windows.Forms.Button();
             this.lineBtn = new System.Windows.Forms.Button();
             this.mainPnl = new System.Windows.Forms.Panel();
-            this.zoomBtn = new System.Windows.Forms.Button();
+            this.groupBtn = new System.Windows.Forms.Button();
+            this.unGroupBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.linearGradientBrushGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.endColorGradientPtrb)).BeginInit();
@@ -383,6 +385,8 @@ namespace Paint
             // 
             // toolGrp
             // 
+            this.toolGrp.Controls.Add(this.unGroupBtn);
+            this.toolGrp.Controls.Add(this.groupBtn);
             this.toolGrp.Controls.Add(this.zoomBtn);
             this.toolGrp.Controls.Add(this.fillBtn);
             this.toolGrp.Controls.Add(this.eraserBtn);
@@ -394,6 +398,18 @@ namespace Paint
             this.toolGrp.TabIndex = 3;
             this.toolGrp.TabStop = false;
             this.toolGrp.Text = "Tool";
+            // 
+            // zoomBtn
+            // 
+            this.zoomBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.zoomBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.zoomBtn.Location = new System.Drawing.Point(6, 75);
+            this.zoomBtn.Name = "zoomBtn";
+            this.zoomBtn.Size = new System.Drawing.Size(60, 60);
+            this.zoomBtn.TabIndex = 3;
+            this.zoomBtn.Text = "Zoom";
+            this.zoomBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.zoomBtn.UseVisualStyleBackColor = false;
             // 
             // fillBtn
             // 
@@ -561,17 +577,29 @@ namespace Paint
             this.mainPnl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseMove);
             this.mainPnl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseUp);
             // 
-            // zoomBtn
+            // groupBtn
             // 
-            this.zoomBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.zoomBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.zoomBtn.Location = new System.Drawing.Point(6, 75);
-            this.zoomBtn.Name = "zoomBtn";
-            this.zoomBtn.Size = new System.Drawing.Size(60, 60);
-            this.zoomBtn.TabIndex = 3;
-            this.zoomBtn.Text = "Zoom";
-            this.zoomBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.zoomBtn.UseVisualStyleBackColor = false;
+            this.groupBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.groupBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.groupBtn.Location = new System.Drawing.Point(72, 75);
+            this.groupBtn.Name = "groupBtn";
+            this.groupBtn.Size = new System.Drawing.Size(60, 60);
+            this.groupBtn.TabIndex = 4;
+            this.groupBtn.Text = "Group";
+            this.groupBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.groupBtn.UseVisualStyleBackColor = false;
+            // 
+            // unGroupBtn
+            // 
+            this.unGroupBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.unGroupBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.unGroupBtn.Location = new System.Drawing.Point(138, 75);
+            this.unGroupBtn.Name = "unGroupBtn";
+            this.unGroupBtn.Size = new System.Drawing.Size(60, 60);
+            this.unGroupBtn.TabIndex = 5;
+            this.unGroupBtn.Text = "UnGroup";
+            this.unGroupBtn.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.unGroupBtn.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -655,6 +683,8 @@ namespace Paint
         public System.Windows.Forms.ComboBox linearGradientStyleCbx;
         public System.Windows.Forms.PictureBox endColorGradientPtrb;
         private System.Windows.Forms.Button zoomBtn;
+        private System.Windows.Forms.Button groupBtn;
+        private System.Windows.Forms.Button unGroupBtn;
     }
 }
 
