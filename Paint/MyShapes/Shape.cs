@@ -17,14 +17,16 @@ namespace Paint.MyShapes
         public Point End { get; set; }
 
         /// <summary>
-        /// Xác định bound cho các hình phức tạp
+        /// Xác định giới hạn trái trên cho các hình phức tạp
         /// </summary>
         public Point TopLeftPoint { get; set; }
         /// <summary>
-        /// Xác định bound cho các hình phức tạp
+        /// Xác định giới hạn phải dưới cho các hình phức tạp
         /// </summary>
         public Point BottomRightPoint { get; set; }
-
+        /// <summary>
+        /// Danh sách các điểm khi vẽ các hình phức tạp
+        /// </summary>
         public List<Point> ListPoint { get; set; }
         /// <summary>
         /// Biến bool cho phép đánh dấu việc vẽ các đường phức tạp như: polygon, curve, path.. đã hoàn thành chưa
@@ -41,6 +43,9 @@ namespace Paint.MyShapes
         /// </summary>
         public bool IsFilled { get; set; } = false;
 
+        /// <summary>
+        /// Biến bool đánh dấu một hình có đang được zoom hay không
+        /// </summary>
         public bool IsZoom { get; set; } = false;
 
         public Shape()
@@ -107,6 +112,28 @@ namespace Paint.MyShapes
             }
             return true;
         }
+        private Shape FindShape(Point p, Shape drawObj)
+        {
+            Form1 temp = new Form1();
+            using (Bitmap bmp = new Bitmap(temp.mainPnl.Width, temp.mainPnl.Height))
+            {
+                using (var grp = Graphics.FromImage(bmp))
+                {
+                    grp.Clear(Color.White);
+                    drawObj.DrawShape(grp);
+                }
+                try
+                {
+                    if (bmp.GetPixel(p.X, p.Y).ToArgb() != Color.White.ToArgb())
+                    {
+                        return drawObj;
+                    }
+                }
+                catch { }
+            }
+
+            return null;
+        }
         public void SelectedBaseOnRectangle(Graphics graphics, Point a, Point b, Point c, Point d)
         {
             float temp = PenDraw.Width / 1.5F;
@@ -133,28 +160,6 @@ namespace Paint.MyShapes
             {
                 graphics.FillRectangle(b, ListPoint[i].X - 3, ListPoint[i].Y - 3, temp, temp);
             }
-        }
-        private Shape FindShape(Point p, Shape drawObj)
-        {
-            Form1 temp = new Form1();   
-            using (Bitmap bmp = new Bitmap(temp.mainPnl.Width, temp.mainPnl.Height))
-            {
-                using (var grp = Graphics.FromImage(bmp))
-                {
-                    grp.Clear(Color.White);
-                    drawObj.DrawShape(grp);
-                }
-                try
-                {
-                    if (bmp.GetPixel(p.X, p.Y).ToArgb() != Color.White.ToArgb())
-                    {
-                        return drawObj;
-                    }
-                }
-                catch { }
-            }
-            
-            return null;
         }
         public bool ContainBound(Point p)
         {
@@ -246,6 +251,10 @@ namespace Paint.MyShapes
             }
             return new Rectangle(p, sizeRect);
         }
+
+
+
+
         public abstract void DrawShape(Graphics graphics);
         public abstract void AddPoint(Point p);
     }

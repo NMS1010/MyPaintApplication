@@ -20,10 +20,43 @@ namespace Paint.MyShapes
         {
             
         }
+        private bool ContainMultiShape(SMultiShape s)
+        {
+            int count = 0;
+            for(int i = 0; i < GroupShapes.Count; i++)
+            {
+                foreach(Shape j in s.Shapes)
+                {
+                    if (GroupShapes[i].Shapes.Contains(j))
+                    {
+                        count++;
+                    }
+                }
+            }
 
+            if (count == s.Shapes.Count)
+            {
+                return true;
+            }
+            return false;
+        }
+        public SMultiShape GroupContainShape(Shape s)
+        {
+            for (int i = 0; i < GroupShapes.Count; i++)
+            {
+                if (GroupShapes[i].Shapes.Contains(s))
+                {
+                    return GroupShapes[i];
+                }
+            }
+            return null;
+        }
         public void AddShape(SMultiShape s)
         {
-            if (s.Shapes.Count == 0) return;
+            if (s.Shapes.Count == 0 || ContainMultiShape(s))
+            {
+                return;
+            }
             SMultiShape n = new SMultiShape();
             s.Shapes.ForEach(x => n.AddShape(x));
             n.UpdatePoint();
@@ -34,9 +67,6 @@ namespace Paint.MyShapes
         {
             GroupShapes.ForEach(groupShape  =>
             {
-                //graphics.DrawRectangle(new Pen(Color.Black) { DashStyle = DashStyle.DashDot, Width = 2F },
-                //    groupShape.TopLeftPoint.X, groupShape.TopLeftPoint.Y, groupShape.BottomRightPoint.X - groupShape.TopLeftPoint.X,
-                //    groupShape.BottomRightPoint.Y - groupShape.TopLeftPoint.Y);
                 groupShape.DrawShape(graphics);
             });
         }
