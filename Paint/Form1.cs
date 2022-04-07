@@ -177,6 +177,29 @@ namespace Paint
                             groupShape.AddShape(multiShape);
                             groupShape.DrawShape(grp.Graphics);
                         }
+                        if(currTool == TOOL.UNGROUP)
+                        {
+                            if (groupShapeChosen.Count != 0)
+                            {
+                                List<int> indexDelGroupShape = new List<int>();
+                                for (int k = 0; k < groupShapeChosen.Count; k++)
+                                {
+                                    for (int j = 0; j < groupShape.GroupShapes.Count; j++)
+                                    {
+                                        if (groupShapeChosen[k] == groupShape.GroupShapes[j])
+                                        {
+                                            groupShape.GroupShapes.RemoveAt(j);
+                                            break;
+                                        }
+                                    }
+                                }
+                                isDisplay = false;
+                            }
+                            buttonsTool[i].BackColor = Color.White;
+                            fillBtn.BackColor = Color.Red;
+                            currTool = TOOL.FILL;
+
+                        }
                         drawShapeObj.ForEach(shape =>
                         {
                             shape.IsZoom = false;
@@ -570,17 +593,22 @@ namespace Paint
                 if (currActions == ACTIONS.SELECTING)
                 {
                     bool check = false;
-                    drawShapeObj.ForEach(shape =>
+                    foreach(Shape shape in drawShapeObj)
                     {
                         if (shape.Contains(e.Location))
                         {
-                            SMultiShape temp = groupShape.GroupContainShape(shape);
-                            if (temp != null)
+                            List<SMultiShape> groupsContainShape = groupShape.GroupsContainShape(shape);
+                            if (groupsContainShape.Count != 0)
                             {
                                 check = true;
-                                temp.Shapes.ForEach((s) => {
-                                    GroupShape(s);
-                                    s.IsZoom = currTool == TOOL.ZOOM ? true : false;
+                                groupsContainShape.ForEach(temp =>
+                                {
+                                    temp.Shapes.ForEach((s) =>
+                                    {
+                                        if(!multiShape.Shapes.Contains(s))
+                                            GroupShape(s);
+                                        s.IsZoom = currTool == TOOL.ZOOM ? true : false;
+                                    });
                                 });
                             }
                             else
@@ -588,8 +616,9 @@ namespace Paint
                                 GroupShape(shape);
                                 shape.IsZoom = currTool == TOOL.ZOOM ? true : false;
                             }
+                            break;
                         }
-                    });
+                    }
                     if(check)
                         GetBoundGroupShape(e);
                 }
@@ -698,12 +727,13 @@ namespace Paint
                 drawShapeObj[drawShapeObj.Count - 1].AddPoint(e.Location);
             }
         }
-        List<SMultiShape> groupShapeChosen;
+        List<SMultiShape> groupShapeChosen = new List<SMultiShape>();
         bool isDisplay = false;
 
         public void GetBoundGroupShape(MouseEventArgs e)
         {
-            groupShapeChosen = new List<SMultiShape>();
+            if(currActions != ACTIONS.SELECTING)
+                groupShapeChosen = new List<SMultiShape>();
             isDisplay = false;
             for (int i = 0; i < groupShape.GroupShapes.Count ; i++)
             {
@@ -716,8 +746,8 @@ namespace Paint
                         groupShape.GroupShapes[i].Shapes[j].IsChosen = true;
                         isDisplay = true;
                     }
-                    else
-                        groupShape.GroupShapes[i].Shapes[j].IsChosen = false;
+                    //else
+                        //groupShape.GroupShapes[i].Shapes[j].IsChosen = false;
                 }
                 if (mulShapeChosen.Shapes.Count > 0)
                 {
@@ -758,10 +788,29 @@ namespace Paint
                 {
                     drawShapeObj.Remove(selectedShape);
                 });
+                multiShape.Shapes.Clear();
+                for(int i = 0; i < groupShape.GroupShapes.Count; i++)
+                {
+                    int count = 0;
+                    for(int j = 0; j < groupShape.GroupShapes[i].Shapes.Count; j++)
+                    {
+                        if (!drawShapeObj.Contains(groupShape.GroupShapes[i].Shapes[j]))
+                        {
+                            count++;
+                        }
+                    }
+                    if(count == groupShape.GroupShapes[i].Shapes.Count)
+                    {
+                        groupShape.GroupShapes.RemoveAt(i);
+                        isDisplay = false;
+                        ReRender();
+                        return;
+                    }
+                }
+
             }else if (currTool == TOOL.ZOOM)
             {
                 currActions = ACTIONS.ZOOM;
-
             }
             ReRender();
 

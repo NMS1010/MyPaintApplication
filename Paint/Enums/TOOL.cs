@@ -13,6 +13,7 @@ namespace Paint.Enums
         ERASER,
         ZOOM,
         GROUP,
-        UNGROUP
+        UNGROUP,
+        NONE
     }
 }

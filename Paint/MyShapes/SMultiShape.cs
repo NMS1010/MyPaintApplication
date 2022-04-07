@@ -22,6 +22,31 @@ namespace Paint.MyShapes
         {
             
         }
+
+        public static bool operator ==(SMultiShape a, SMultiShape b) 
+        {
+            if(a.Shapes.Count != b.Shapes.Count) return false;
+            for(int i = 0; i < a.Shapes.Count; i++)
+            {
+                if(a.Shapes[i] != b.Shapes[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public static bool operator !=(SMultiShape a, SMultiShape b)
+        {
+            if (a.Shapes.Count == b.Shapes.Count) return false;
+            for (int i = 0; i < a.Shapes.Count; i++)
+            {
+                if (a.Shapes[i] == b.Shapes[i])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public void UpdatePoint()
         {
             int xMin = 999999;

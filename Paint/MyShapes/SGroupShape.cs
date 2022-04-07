@@ -22,34 +22,36 @@ namespace Paint.MyShapes
         }
         private bool ContainMultiShape(SMultiShape s)
         {
-            int count = 0;
+            int count;
             for(int i = 0; i < GroupShapes.Count; i++)
             {
-                foreach(Shape j in s.Shapes)
+                count = 0;
+                foreach (Shape j in s.Shapes)
                 {
                     if (GroupShapes[i].Shapes.Contains(j))
                     {
                         count++;
                     }
                 }
+                if (count == s.Shapes.Count)
+                {
+                    return true;
+                }
             }
 
-            if (count == s.Shapes.Count)
-            {
-                return true;
-            }
             return false;
         }
-        public SMultiShape GroupContainShape(Shape s)
+        public List<SMultiShape> GroupsContainShape(Shape s)
         {
+            List< SMultiShape > groupShapes = new List<SMultiShape>();
             for (int i = 0; i < GroupShapes.Count; i++)
             {
                 if (GroupShapes[i].Shapes.Contains(s))
                 {
-                    return GroupShapes[i];
+                    groupShapes.Add(GroupShapes[i]);
                 }
             }
-            return null;
+            return groupShapes;
         }
         public void AddShape(SMultiShape s)
         {
