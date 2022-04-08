@@ -17,11 +17,11 @@ namespace Paint.MyShapes
         public Point End { get; set; }
 
         /// <summary>
-        /// Xác định giới hạn trái trên cho các hình phức tạp
+        /// Xác định giới hạn trái trên cho các hình khi đang di chuyển để vẽ
         /// </summary>
         public Point TopLeftPoint { get; set; }
         /// <summary>
-        /// Xác định giới hạn phải dưới cho các hình phức tạp
+        /// Xác định giới hạn phải dưới cho các hình khi đang di chuyển để vẽ
         /// </summary>
         public Point BottomRightPoint { get; set; }
         /// <summary>

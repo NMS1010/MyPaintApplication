@@ -54,7 +54,8 @@ namespace Paint.MyShapes
                 }
                 SelectedBaseOnRectangle(graphics, a, b, c, d);
             }
-            this.End = new Point(rect.Right, rect.Bottom);
+            TopLeftPoint = new Point(rect.Left, rect.Top);
+            BottomRightPoint = new Point(rect.Right, rect.Bottom);
         }
     }
 }

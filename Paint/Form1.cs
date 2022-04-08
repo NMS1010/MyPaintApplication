@@ -181,7 +181,7 @@ namespace Paint
                         {
                             if (groupShapeChosen.Count != 0)
                             {
-                                List<int> indexDelGroupShape = new List<int>();
+                                bool isFound = false;
                                 for (int k = 0; k < groupShapeChosen.Count; k++)
                                 {
                                     for (int j = 0; j < groupShape.GroupShapes.Count; j++)
@@ -189,9 +189,12 @@ namespace Paint
                                         if (groupShapeChosen[k] == groupShape.GroupShapes[j])
                                         {
                                             groupShape.GroupShapes.RemoveAt(j);
+                                            isFound = true;
                                             break;
                                         }
                                     }
+                                    if (isFound)
+                                        break;
                                 }
                                 isDisplay = false;
                             }
@@ -472,8 +475,8 @@ namespace Paint
                         //}
                         //else
                         //{
-                        //    Rectangle rect = GetRect(multiShape.Shapes[i]).Value;
-                        //    multiShape.Shapes[i].End = new Point(multiShape.Shapes[i].Start.X + rect.Width, multiShape.Shapes[i].Start.Y + rect.Height);
+                           Rectangle rect = GetRect(multiShape.Shapes[i]).Value;
+                           multiShape.Shapes[i].End = new Point(multiShape.Shapes[i].Start.X + rect.Width, multiShape.Shapes[i].Start.Y + rect.Height);
                         //}
                     }
                     //Trai tren
@@ -820,7 +823,8 @@ namespace Paint
             if (e.Button != MouseButtons.Left) return;
             if (currActions == ACTIONS.DRAWING)
             {
-                drawShapeObj[drawShapeObj.Count - 1].End = e.Location;
+                drawShapeObj[drawShapeObj.Count - 1].Start = drawShapeObj[drawShapeObj.Count - 1].TopLeftPoint;
+                drawShapeObj[drawShapeObj.Count - 1].End = drawShapeObj[drawShapeObj.Count - 1].BottomRightPoint;
                 if (currShape != SHAPE.PATH && currShape != SHAPE.CURVE && currShape != SHAPE.POLYGON)
                 {
                     currActions = ACTIONS.READYDRAW;

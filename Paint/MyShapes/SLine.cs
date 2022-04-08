@@ -23,6 +23,7 @@ namespace Paint.MyShapes
         public override void DrawShape(Graphics graphics)
         {
             graphics.DrawLine(PenDraw, Start, End);
+            Rectangle rect = GetSuitableDirectionShape(SHAPE.LINE);
             if (IsChosen)
             {
                 float temp = PenDraw.Width / 1.5F;
@@ -50,6 +51,8 @@ namespace Paint.MyShapes
                 graphics.FillRectangle(br, b.X, b.Y, temp, temp );
                 graphics.FillRectangle(br, c.X, c.Y, temp , temp );
             }
+            TopLeftPoint = new Point(rect.Left, rect.Top);
+            BottomRightPoint = new Point(rect.Right, rect.Bottom);
         }
     }
 }
