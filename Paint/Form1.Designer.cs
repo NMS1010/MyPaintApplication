@@ -103,9 +103,9 @@ namespace Paint
             this.panel1.Controls.Add(this.toolGrp);
             this.panel1.Controls.Add(this.colorPtrb);
             this.panel1.Controls.Add(this.shapeGrp);
-            this.panel1.Location = new System.Drawing.Point(-3, 29);
+            this.panel1.Location = new System.Drawing.Point(-3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1411, 223);
+            this.panel1.Size = new System.Drawing.Size(1423, 211);
             this.panel1.TabIndex = 0;
             // 
             // linearGradientBrushGrp
@@ -590,9 +590,9 @@ namespace Paint
             // 
             this.mainPnl.BackColor = System.Drawing.Color.White;
             this.mainPnl.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.mainPnl.Location = new System.Drawing.Point(-3, 258);
+            this.mainPnl.Location = new System.Drawing.Point(-3, 219);
             this.mainPnl.Name = "mainPnl";
-            this.mainPnl.Size = new System.Drawing.Size(1411, 549);
+            this.mainPnl.Size = new System.Drawing.Size(1423, 732);
             this.mainPnl.TabIndex = 1;
             this.mainPnl.Click += new System.EventHandler(this.mainPnl_Click);
             this.mainPnl.Paint += new System.Windows.Forms.PaintEventHandler(this.mainPnl_Paint);
@@ -605,10 +605,12 @@ namespace Paint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1416, 813);
+            this.ClientSize = new System.Drawing.Size(1416, 954);
             this.Controls.Add(this.mainPnl);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
+            this.MaximumSize = new System.Drawing.Size(1432, 993);
             this.Name = "Form1";
             this.Text = "My Paint Application";
             this.Load += new System.EventHandler(this.Form1_Load);

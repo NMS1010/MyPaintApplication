@@ -407,20 +407,21 @@ namespace Paint
                     List<List<Point>> zones = new List<List<Point>>();
                     if (multiShape.Shapes[i] is SPath || multiShape.Shapes[i] is SPolygon || multiShape.Shapes[i] is SCurve)
                     {
-                        if (e.Location.Y - multiShape.Shapes[i].BottomRightPoint.Y > e.Location.X - multiShape.Shapes[i].BottomRightPoint.X)
-                        {
-                            int zoneHeight = (multiShape.Shapes[i].BottomRightPoint.Y - multiShape.Shapes[i].TopLeftPoint.Y) / 3;
-                            zones.Add(GetPointBelowY(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.Y, multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight));
-                            zones.Add(GetPointBelowY(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight, multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight * 2));
-                            zones.Add(GetPointBelowY(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight * 2, multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight * 3));
-                        }
-                        else
-                        {
-                            int zoneWidth = (multiShape.Shapes[i].BottomRightPoint.X - multiShape.Shapes[i].TopLeftPoint.X) / 3;
-                            zones.Add(GetPointBelowX(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.X, multiShape.Shapes[i].TopLeftPoint.X + zoneWidth));
-                            zones.Add(GetPointBelowX(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.X + zoneWidth, multiShape.Shapes[i].TopLeftPoint.X + zoneWidth * 2));
-                            zones.Add(GetPointBelowX(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.X + zoneWidth * 2, multiShape.Shapes[i].TopLeftPoint.X + zoneWidth * 3));
-                        }
+                        return;
+                        //if (e.Location.Y - multiShape.Shapes[i].BottomRightPoint.Y > e.Location.X - multiShape.Shapes[i].BottomRightPoint.X)
+                        //{
+                        //    int zoneHeight = (multiShape.Shapes[i].BottomRightPoint.Y - multiShape.Shapes[i].TopLeftPoint.Y) / 3;
+                        //    zones.Add(GetPointBelowY(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.Y, multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight));
+                        //    zones.Add(GetPointBelowY(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight, multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight * 2));
+                        //    zones.Add(GetPointBelowY(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight * 2, multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight * 3));
+                        //}
+                        //else
+                        //{
+                        //    int zoneWidth = (multiShape.Shapes[i].BottomRightPoint.X - multiShape.Shapes[i].TopLeftPoint.X) / 3;
+                        //    zones.Add(GetPointBelowX(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.X, multiShape.Shapes[i].TopLeftPoint.X + zoneWidth));
+                        //    zones.Add(GetPointBelowX(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.X + zoneWidth, multiShape.Shapes[i].TopLeftPoint.X + zoneWidth * 2));
+                        //    zones.Add(GetPointBelowX(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.X + zoneWidth * 2, multiShape.Shapes[i].TopLeftPoint.X + zoneWidth * 3));
+                        //}
                     }
                     //Phai duoi
                     if (isBottomRight)
@@ -429,10 +430,10 @@ namespace Paint
                         multiShape.Shapes[i].End = e.Location;
                         if (multiShape.Shapes[i] is SPath || multiShape.Shapes[i] is SPolygon || multiShape.Shapes[i] is SCurve)
                         {
-                            int dx = multiShape.Shapes[i].End.X - preEnd.X;
-                            int dy = multiShape.Shapes[i].End.Y - preEnd.Y;
-                            SetLocationPoint(zones, multiShape.Shapes[i], dx, dy);
-                            multiShape.Shapes[i].BottomRightPoint = e.Location;
+                            //int dx = multiShape.Shapes[i].End.X - preEnd.X;
+                            //int dy = multiShape.Shapes[i].End.Y - preEnd.Y;
+                            //SetLocationPoint(zones, multiShape.Shapes[i], dx, dy);
+                            //multiShape.Shapes[i].BottomRightPoint = e.Location;
                         }
                         else
                         {
