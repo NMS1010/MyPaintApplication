@@ -65,6 +65,34 @@ namespace Paint
             penBtn.Image = Image.FromFile(@"../../Image/pencil.png");
             fillBtn.Image = Image.FromFile(@"../../Image/bucket.png");
             eraserBtn.Image = Image.FromFile(@"../../Image/eraser.png");
+            using(Image img = Image.FromFile(@"../../Image/color_palette.png"))
+            {
+                color_picker_Ptrb.Image = new Bitmap(img);
+            }
+            using (Image img = Image.FromFile(@"../../Image/pencil.png"))
+            {
+                penBtn.Image = new Bitmap(img, 30, 30);
+            }
+            using (Image img = Image.FromFile(@"../../Image/bucket.png"))
+            {
+                fillBtn.Image = new Bitmap(img, 30, 30);
+            }
+            using (Image img = Image.FromFile(@"../../Image/eraser.png"))
+            {
+                eraserBtn.Image = new Bitmap(img, 30, 30);
+            }
+            using (Image img = Image.FromFile(@"../../Image/search.png"))
+            {
+                zoomBtn.Image = new Bitmap(img, 30, 30);
+            }
+            using (Image img = Image.FromFile(@"../../Image/group.png"))
+            {
+                groupBtn.Image = new Bitmap(img, 30, 30);
+            }
+            using (Image img = Image.FromFile(@"../../Image/ungroup.png"))
+            {
+                unGroupBtn.Image = new Bitmap(img, 30, 30);
+            }
             colorPtrb.BackColor = myColor;
         }
         private void Init()

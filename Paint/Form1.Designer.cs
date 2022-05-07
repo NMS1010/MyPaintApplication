@@ -403,6 +403,7 @@ namespace Paint
             // 
             this.unGroupBtn.BackColor = System.Drawing.Color.White;
             this.unGroupBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.unGroupBtn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.unGroupBtn.Location = new System.Drawing.Point(138, 75);
             this.unGroupBtn.Name = "unGroupBtn";
             this.unGroupBtn.Size = new System.Drawing.Size(60, 60);
@@ -415,6 +416,7 @@ namespace Paint
             // 
             this.groupBtn.BackColor = System.Drawing.Color.White;
             this.groupBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.groupBtn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.groupBtn.Location = new System.Drawing.Point(72, 75);
             this.groupBtn.Name = "groupBtn";
             this.groupBtn.Size = new System.Drawing.Size(60, 60);
@@ -426,7 +428,9 @@ namespace Paint
             // zoomBtn
             // 
             this.zoomBtn.BackColor = System.Drawing.Color.White;
+            this.zoomBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.zoomBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.zoomBtn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.zoomBtn.Location = new System.Drawing.Point(6, 75);
             this.zoomBtn.Name = "zoomBtn";
             this.zoomBtn.Size = new System.Drawing.Size(60, 60);
@@ -439,6 +443,7 @@ namespace Paint
             // 
             this.fillBtn.BackColor = System.Drawing.Color.White;
             this.fillBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.fillBtn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.fillBtn.Location = new System.Drawing.Point(72, 14);
             this.fillBtn.Name = "fillBtn";
             this.fillBtn.Size = new System.Drawing.Size(60, 60);
@@ -451,6 +456,7 @@ namespace Paint
             // 
             this.eraserBtn.BackColor = System.Drawing.Color.White;
             this.eraserBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.eraserBtn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.eraserBtn.Location = new System.Drawing.Point(138, 15);
             this.eraserBtn.Name = "eraserBtn";
             this.eraserBtn.Size = new System.Drawing.Size(60, 60);
@@ -463,6 +469,7 @@ namespace Paint
             // 
             this.penBtn.BackColor = System.Drawing.Color.White;
             this.penBtn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.penBtn.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.penBtn.Location = new System.Drawing.Point(6, 14);
             this.penBtn.Name = "penBtn";
             this.penBtn.Size = new System.Drawing.Size(60, 60);
