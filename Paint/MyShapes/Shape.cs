@@ -141,7 +141,7 @@ namespace Paint.MyShapes
             {
                 temp = 6.0F;
             }
-            Brush brush = new SolidBrush(Color.FromArgb(0,1,0));
+            Brush brush = new SolidBrush(Color.Black);
             graphics.FillRectangle(brush, a.X, a.Y, temp, temp);
             graphics.FillRectangle(brush, b.X, b.Y, temp, temp);
             graphics.FillRectangle(brush, c.X, c.Y, temp, temp);
@@ -154,7 +154,7 @@ namespace Paint.MyShapes
             {
                 temp = 6.0F;
             }
-            Brush b = new SolidBrush(Color.FromArgb(0, 1, 0));
+            Brush b = new SolidBrush(Color.Black);
 
             for (int i = 0; i < ListPoint.Count; i += gap)
             {
@@ -177,7 +177,7 @@ namespace Paint.MyShapes
                 }
                 try
                 {
-                    if (bmp.GetPixel(p.X, p.Y).ToArgb() != Color.FromArgb(0,1,0).ToArgb())
+                    if (bmp.GetPixel(p.X, p.Y).ToArgb() != Color.Black.ToArgb())
                     {
                         return drawObj;
                     }

@@ -350,67 +350,13 @@ namespace Paint
             {
                 return shape.GetSuitableDirectionShape(SHAPE.RECTANGLE);
             }
+            if(shape is SLine)
+            {
+                return shape.GetSuitableDirectionShape(SHAPE.LINE);
+            }
             return null;
         }
-        private List<Point> GetPointBelowY(Shape s, int n1, int n2)
-        {
-            List<Point> points = new List<Point>();
-            s.ListPoint.ForEach(p => {
-                if (p.Y > n1 && p.Y <= n2)
-                {
-                    points.Add(p);
-                }
-            });
-            return points;
-        }
-        private List<Point> GetPointBelowX(Shape s, int n1, int n2)
-        {
-            List<Point> points = new List<Point>();
-            s.ListPoint.ForEach(p => {
-                if (p.X > n1 && p.X <= n2)
-                {
-                    points.Add(p);
-                }
-            });
-            return points;
-        }
-        private bool IsContain(List<Point> points, Point p)
-        {
-            for (int i = 0; i < points.Count; i++)
-            {
-                if (points[i].X == p.X && points[i].Y == p.Y)
-                    return true;
-            }
-            return false;
-        }
-        private bool IsOverBound(Point p, Shape s)
-        {
-            if (p.X <= s.TopLeftPoint.X || p.Y <= s.TopLeftPoint.Y || p.X >= s.BottomRightPoint.X || p.Y >= s.BottomRightPoint.Y)
-                return true;
-            return false;
-        }
-        private void SetLocationPoint(List<List<Point>> zones, Shape s, int dx, int dy)
-        {
-            for (var i = 0; i < s.ListPoint.Count; i++)
-            {
-                Point temp = s.ListPoint[i];
-                if (IsContain(zones[0], s.ListPoint[i]))
-                {
-                    temp = new Point(s.ListPoint[i].X + dx / 7, s.ListPoint[i].Y + dy / 7);
-                }
-                else if (IsContain(zones[1], s.ListPoint[i]))
-                {
-                    temp = new Point(s.ListPoint[i].X + dx / 4, s.ListPoint[i].Y + dy / 4);
-                }
-                else if(IsContain(zones[2], s.ListPoint[i]))
-                {
-                    temp = new Point(s.ListPoint[i].X + dx, s.ListPoint[i].Y + dy);
-                }
-                if (IsOverBound(temp, s))
-                    continue;
-                s.ListPoint[i] = temp;
-            }
-        }
+
         private void mainPnl_MouseMove(object sender, MouseEventArgs e)
         {
             if (currActions == ACTIONS.DRAWING)
@@ -432,24 +378,9 @@ namespace Paint
             {
                 for (int i = 0; i < multiShape.Shapes.Count; i++)
                 {
-                    List<List<Point>> zones = new List<List<Point>>();
                     if (multiShape.Shapes[i] is SPath || multiShape.Shapes[i] is SPolygon || multiShape.Shapes[i] is SCurve)
                     {
                         return;
-                        //if (e.Location.Y - multiShape.Shapes[i].BottomRightPoint.Y > e.Location.X - multiShape.Shapes[i].BottomRightPoint.X)
-                        //{
-                        //    int zoneHeight = (multiShape.Shapes[i].BottomRightPoint.Y - multiShape.Shapes[i].TopLeftPoint.Y) / 3;
-                        //    zones.Add(GetPointBelowY(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.Y, multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight));
-                        //    zones.Add(GetPointBelowY(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight, multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight * 2));
-                        //    zones.Add(GetPointBelowY(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight * 2, multiShape.Shapes[i].TopLeftPoint.Y + zoneHeight * 3));
-                        //}
-                        //else
-                        //{
-                        //    int zoneWidth = (multiShape.Shapes[i].BottomRightPoint.X - multiShape.Shapes[i].TopLeftPoint.X) / 3;
-                        //    zones.Add(GetPointBelowX(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.X, multiShape.Shapes[i].TopLeftPoint.X + zoneWidth));
-                        //    zones.Add(GetPointBelowX(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.X + zoneWidth, multiShape.Shapes[i].TopLeftPoint.X + zoneWidth * 2));
-                        //    zones.Add(GetPointBelowX(multiShape.Shapes[i], multiShape.Shapes[i].TopLeftPoint.X + zoneWidth * 2, multiShape.Shapes[i].TopLeftPoint.X + zoneWidth * 3));
-                        //}
                     }
                     //Phai duoi
                     if (isBottomRight)
@@ -458,10 +389,6 @@ namespace Paint
                         multiShape.Shapes[i].End = e.Location;
                         if (multiShape.Shapes[i] is SPath || multiShape.Shapes[i] is SPolygon || multiShape.Shapes[i] is SCurve)
                         {
-                            //int dx = multiShape.Shapes[i].End.X - preEnd.X;
-                            //int dy = multiShape.Shapes[i].End.Y - preEnd.Y;
-                            //SetLocationPoint(zones, multiShape.Shapes[i], dx, dy);
-                            //multiShape.Shapes[i].BottomRightPoint = e.Location;
                         }
                         else
                         {
@@ -818,14 +745,12 @@ namespace Paint
             if (e.Button != MouseButtons.Left) return;
             if (currActions == ACTIONS.DRAWING)
             {
-                if (currShape == SHAPE.CURVE || currShape == SHAPE.POLYGON || currShape == SHAPE.PATH)
-                {
+                if(currShape == SHAPE.LINE || currShape == SHAPE.POLYGON || currShape == SHAPE.PATH || currShape == SHAPE.CURVE )
                     drawShapeObj[drawShapeObj.Count - 1].End = e.Location;
-                }
-                else if(currShape != SHAPE.LINE)
+                else
                 {
-                    drawShapeObj[drawShapeObj.Count - 1].Start = drawShapeObj[drawShapeObj.Count - 1].TopLeftPoint;
-                    drawShapeObj[drawShapeObj.Count - 1].End = drawShapeObj[drawShapeObj.Count - 1].BottomRightPoint;
+                    drawShapeObj[drawShapeObj.Count - 1].Start = new Point(drawShapeObj[drawShapeObj.Count - 1].TopLeftPoint.X, drawShapeObj[drawShapeObj.Count - 1].TopLeftPoint.Y);
+                    drawShapeObj[drawShapeObj.Count - 1].End = new Point(drawShapeObj[drawShapeObj.Count - 1].BottomRightPoint.X, drawShapeObj[drawShapeObj.Count - 1].BottomRightPoint.Y);
                 }
                 if (currShape != SHAPE.PATH && currShape != SHAPE.CURVE && currShape != SHAPE.POLYGON)
                 {
@@ -965,33 +890,35 @@ namespace Paint
             currColorType = COLOR_TYPE.END_COLOR;
             RefreshPtrbs();
         }
-        public void ChangeBorderPtrb(PaintEventArgs e, COLOR_TYPE type)
+        public void ChangeBorderPtrb(PaintEventArgs e, COLOR_TYPE type, PictureBox ptrb)
         {
             if (currColorType == type)
+            {
                 ControlPaint.DrawBorder3D(e.Graphics, e.ClipRectangle, Border3DStyle.Flat);
+            }
             else
                 ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, myColor, ButtonBorderStyle.None);
         }
         private void penColorPtrb_Paint(object sender, PaintEventArgs e)
         {
-            ChangeBorderPtrb(e, COLOR_TYPE.PENCOLOR);
+            ChangeBorderPtrb(e, COLOR_TYPE.PENCOLOR, sender as PictureBox);
         }
         private void backColorPtrb_Paint(object sender, PaintEventArgs e)
         {
-            ChangeBorderPtrb(e, COLOR_TYPE.BACKCOLOR);
+            ChangeBorderPtrb(e, COLOR_TYPE.BACKCOLOR, sender as PictureBox);
         }
         private void foreColorPtrb_Paint(object sender, PaintEventArgs e)
         {
-            ChangeBorderPtrb(e, COLOR_TYPE.FORECOLOR);
+            ChangeBorderPtrb(e, COLOR_TYPE.FORECOLOR, sender as PictureBox);
         }
         private void startColorGradientPtrb_Paint(object sender, PaintEventArgs e)
         {
-            ChangeBorderPtrb(e, COLOR_TYPE.START_COLOR);
+            ChangeBorderPtrb(e, COLOR_TYPE.START_COLOR, sender as PictureBox);
         }
 
         private void endColorGradientPtrb_Paint(object sender, PaintEventArgs e)
         {
-            ChangeBorderPtrb(e, COLOR_TYPE.END_COLOR);
+            ChangeBorderPtrb(e, COLOR_TYPE.END_COLOR, sender as PictureBox);
         }
         private Brush GetBrushStyle(string style, Color? backColor = null, Color? foreColor = null, HatchStyle? hatchStyle = null,
             Color? startColor = null, Color? endColor = null, LinearGradientMode? linearGradientMode = null, Rectangle? rect = null)

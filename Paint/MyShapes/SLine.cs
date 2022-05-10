@@ -35,20 +35,17 @@ namespace Paint.MyShapes
                 Point a, b, c;
                 if (IsZoom)
                 {
-                    a = new Point(Start.X - (int)temp / 2, Start.Y - (int)temp / 2);
-                    b = new Point(End.X - 3, Start.Y - (int)temp / 2);
-                    c = new Point(Start.X - (int)temp / 2, End.Y - 3);
-                    Point d = new Point(End.X - 3, End.Y - 3);
-                    graphics.FillRectangle(br, d.X, d.Y, temp, temp);
+                    a = new Point(Start.X - 3, Start.Y - 3);
+                    c = new Point(End.X - 5, End.Y - 5);
                 }
                 else
                 {
                     a = new Point(Start.X - 3, Start.Y - 3);
                     b = new Point(Start.X + (End.X - Start.X) / 2 - 3, Start.Y + (End.Y - Start.Y) / 2 - 3);
                     c = new Point(End.X - 5, End.Y - 5);
+                    graphics.FillRectangle(br, b.X, b.Y, temp, temp);
                 }
                 graphics.FillRectangle(br, a.X, a.Y, temp, temp );
-                graphics.FillRectangle(br, b.X, b.Y, temp, temp );
                 graphics.FillRectangle(br, c.X, c.Y, temp , temp );
             }
             TopLeftPoint = new Point(rect.Left, rect.Top);

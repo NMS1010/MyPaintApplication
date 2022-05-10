@@ -78,21 +78,21 @@ namespace Paint.MyShapes
                 }
                 else
                 {
-                    if (Shapes[i].Start.X < xMin)
+                    if (Shapes[i].TopLeftPoint.X < xMin)
                     {
-                        xMin = Shapes[i].Start.X;
+                        xMin = Shapes[i].TopLeftPoint.X;
                     }
-                    if (Shapes[i].Start.Y < yMin)
+                    if (Shapes[i].TopLeftPoint.Y < yMin)
                     {
-                        yMin = Shapes[i].Start.Y;
+                        yMin = Shapes[i].TopLeftPoint.Y;
                     }
-                    if (Shapes[i].End.X > xMax)
+                    if (Shapes[i].BottomRightPoint.X > xMax)
                     {
-                        xMax = Shapes[i].End.X;
+                        xMax = Shapes[i].BottomRightPoint.X;
                     }
-                    if (Shapes[i].End.Y > yMax)
+                    if (Shapes[i].BottomRightPoint.Y > yMax)
                     {
-                        yMax = Shapes[i].End.Y;
+                        yMax = Shapes[i].BottomRightPoint.Y;
                     }
                 }
             }
