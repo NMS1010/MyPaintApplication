@@ -114,7 +114,7 @@ namespace Paint.MyShapes
         }
         private Shape FindShape(Point p, Shape drawObj)
         {
-            Form1 temp = new Form1();
+            MyPaintApp temp = new MyPaintApp();
             using (Bitmap bmp = new Bitmap(temp.mainPnl.Width, temp.mainPnl.Height))
             {
                 using (var grp = Graphics.FromImage(bmp))
@@ -167,7 +167,7 @@ namespace Paint.MyShapes
         }
         private Shape FindBound(Point p, Shape drawObj)
         {
-            Form1 temp = new Form1();
+            MyPaintApp temp = new MyPaintApp();
             using (Bitmap bmp = new Bitmap(temp.mainPnl.Width, temp.mainPnl.Height))
             {
                 using (var grp = Graphics.FromImage(bmp))

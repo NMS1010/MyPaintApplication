@@ -13,7 +13,7 @@ using Paint.MyShapes;
 
 namespace Paint
 {
-    public partial class Form1 : Form
+    public partial class MyPaintApp : Form
     {
         private BufferedGraphics grp;
         private BufferedGraphicsContext grpContext;
@@ -40,7 +40,7 @@ namespace Paint
         private HatchStyle currHatchStyle;
         public LinearGradientMode currLinearGradientMode;
         private Brush currBrush;
-        public Form1()
+        public MyPaintApp()
         {
             InitializeComponent();
         }
@@ -61,35 +61,31 @@ namespace Paint
         }
         private void SetImage()
         {
-            color_picker_Ptrb.Image = Image.FromFile(@"../../Image/color_palette.png");
-            penBtn.Image = Image.FromFile(@"../../Image/pencil.png");
-            fillBtn.Image = Image.FromFile(@"../../Image/bucket.png");
-            eraserBtn.Image = Image.FromFile(@"../../Image/eraser.png");
-            using(Image img = Image.FromFile(@"../../Image/color_palette.png"))
+            using(Image img = Properties.Resources.color_palette)
             {
                 color_picker_Ptrb.Image = new Bitmap(img);
             }
-            using (Image img = Image.FromFile(@"../../Image/pencil.png"))
+            using (Image img = Properties.Resources.pencil)
             {
                 penBtn.Image = new Bitmap(img, 30, 30);
             }
-            using (Image img = Image.FromFile(@"../../Image/bucket.png"))
+            using (Image img = Properties.Resources.bucket)
             {
                 fillBtn.Image = new Bitmap(img, 30, 30);
             }
-            using (Image img = Image.FromFile(@"../../Image/eraser.png"))
+            using (Image img = Properties.Resources.eraser)
             {
                 eraserBtn.Image = new Bitmap(img, 30, 30);
             }
-            using (Image img = Image.FromFile(@"../../Image/search.png"))
+            using (Image img = Properties.Resources.search)
             {
                 zoomBtn.Image = new Bitmap(img, 30, 30);
             }
-            using (Image img = Image.FromFile(@"../../Image/group.png"))
+            using (Image img = Properties.Resources.group)
             {
                 groupBtn.Image = new Bitmap(img, 30, 30);
             }
-            using (Image img = Image.FromFile(@"../../Image/ungroup.png"))
+            using (Image img = Properties.Resources.ungroup)
             {
                 unGroupBtn.Image = new Bitmap(img, 30, 30);
             }

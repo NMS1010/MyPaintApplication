@@ -1,7 +1,7 @@
 ﻿
 namespace Paint
 {
-    partial class Form1
+    partial class MyPaintApp
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,7 @@ namespace Paint
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.linearGradientBrushGrp = new System.Windows.Forms.GroupBox();
             this.endColorGradientPtrb = new System.Windows.Forms.PictureBox();
@@ -74,6 +75,7 @@ namespace Paint
             this.rectBtn = new System.Windows.Forms.Button();
             this.lineBtn = new System.Windows.Forms.Button();
             this.mainPnl = new System.Windows.Forms.Panel();
+            this.infoToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
             this.linearGradientBrushGrp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.endColorGradientPtrb)).BeginInit();
@@ -608,7 +610,7 @@ namespace Paint
             this.mainPnl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseMove);
             this.mainPnl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainPnl_MouseUp);
             // 
-            // Form1
+            // MyPaintApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -618,8 +620,9 @@ namespace Paint
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
             this.MaximumSize = new System.Drawing.Size(1432, 993);
-            this.Name = "Form1";
+            this.Name = "MyPaintApp";
             this.Text = "My Paint Application";
+            this.infoToolTip.SetToolTip(this, "Code by Nguyễn Minh Sơn(20110713)");
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainPnl_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainPnl_KeyUp);
@@ -694,6 +697,7 @@ namespace Paint
         private System.Windows.Forms.Button zoomBtn;
         private System.Windows.Forms.Button groupBtn;
         private System.Windows.Forms.Button unGroupBtn;
+        private System.Windows.Forms.ToolTip infoToolTip;
     }
 }
 

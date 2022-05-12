@@ -50,11 +50,11 @@
     <Compile Include="Enums\COLOR_TYPE.cs" />
     <Compile Include="Enums\SHAPE.cs" />
     <Compile Include="Enums\TOOL.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="MyPaintApp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MyPaintApp.Designer.cs">
+      <DependentUpon>MyPaintApp.cs</DependentUpon>
     </Compile>
     <Compile Include="MyShapes\SCircle.cs" />
     <Compile Include="MyShapes\SCurve.cs" />
@@ -69,8 +69,8 @@
     <Compile Include="MyShapes\Shape.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MyPaintApp.resx">
+      <DependentUpon>MyPaintApp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -80,6 +80,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -99,6 +100,9 @@
     <Content Include="Image\color.png" />
     <Content Include="Image\color_palette.png" />
     <Content Include="Image\eraser.png" />
+    <None Include="Image\ungroup.png" />
+    <None Include="Image\search.png" />
+    <None Include="Image\group.png" />
     <Content Include="Image\pencil.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
